@@ -12,10 +12,8 @@
     <a href="index.html">Home</a>
     <a href="cart.html">Cart & Checkout</a>
   </nav>
-
   <div class="container">
     <h2>Parts List</h2>
-
     <div class="category" onclick="toggleSection('filters')">Filters ▼</div>
     <div id="filters" class="product-list">
       <div class="product"><span>Oil Filter (€20)</span><button onclick="addToCart('Oil Filter', 20)">Add</button></div>
@@ -34,19 +32,15 @@
       <div class="product"><span>Diesel Treatment (€34)</span><button onclick="addToCart('Diesel Treatment', 34)">Add</button></div>
     </div>
   </div>
-
   <div class="live-cart" onclick="window.location.href='cart.html'">
     <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
   </div>
-
   <script src="script.js"></script>
   <script>
     function toggleSection(id) {
       const section = document.getElementById(id);
       section.style.display = section.style.display === 'none' ? 'block' : 'none';
     }
-
-    // Hide all sections by default
     window.onload = function () {
       updateCart();
       document.getElementById('filters').style.display = 'none';
