@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts List - Toyota Parts Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>Toyota Liffey Valley Parts Store</header>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="cart.html">Cart & Checkout</a>
+</nav>
+<div class="container">
+    <h2>Parts List</h2>
+    <div class="category">Filters</div>
+    <div class="product"><span>Oil Filter (€20)</span><button onclick="addToCart('Oil Filter', 20)">Add</button></div>
+    <div class="product"><span>Air Filter (€15)</span><button onclick="addToCart('Air Filter', 15)">Add</button></div>
+    <div class="category">Brakes</div>
+    <div class="product"><span>Front Brakes (€150)</span><button onclick="addToCart('Front Brakes', 150)">Add</button></div>
+    <div class="product"><span>Rear Brakes (€110)</span><button onclick="addToCart('Rear Brakes', 110)">Add</button></div>
+    <div class="category">Fuel Treatment</div>
+    <div class="product"><span>Petrol Treatment (€29)</span><button onclick="addToCart('Petrol Treatment', 29)">Add</button></div>
+    <div class="product"><span>Diesel Treatment (€34)</span><button onclick="addToCart('Diesel Treatment', 34)">Add</button></div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
