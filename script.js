@@ -37,3 +37,31 @@ function checkout() {
 }
 
 window.onload = updateCart;
+
+
+function showCartPreview() {
+  const cartPreview = document.getElementById('cart-preview');
+  if (cartPreview) {
+    cartPreview.style.display = 'block';
+    updateCartPreview();
+  }
+}
+
+function hideCartPreview() {
+  const cartPreview = document.getElementById('cart-preview');
+  if (cartPreview) {
+    cartPreview.style.display = 'none';
+  }
+}
+
+function updateCartPreview() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const cartPreview = document.getElementById('cart-preview');
+  if (!cartPreview) return;
+  let html = '<ul>';
+  cart.forEach(item => {
+    html += `<li>${item.name} - €${item.price.toFixed(2)}</li>`;
+  });
+  html += '</ul>';
+  cartPreview.innerHTML = cart.length ? html : '<p>Your cart is empty.</p>';
+}
