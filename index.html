@@ -12,10 +12,46 @@
     <a href="parts.html">Parts List</a>
     <a href="cart.html">Cart & Checkout</a>
 </nav>
+
 <div class="container">
     <h2>Welcome to Toyota Liffey Valley Parts Store</h2>
     <p>Find genuine Toyota parts and accessories for your vehicle.</p>
+
+    <h3>Enter Your Registration Number</h3>
+    <input type="text" id="reg-input" placeholder="Enter reg (e.g. 151D12345)">
+    <button onclick="lookupCar()">Check</button>
+
+    <div style="margin-top: 15px;">
+        <p><strong>Make:</strong> <span id="make-output">—</span></p>
+        <p><strong>Model:</strong> <span id="model-output">—</span></p>
+    </div>
 </div>
+
+<div class="live-cart" onclick="window.location.href='cart.html'">
+  <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart">
+</div>
+
 <script src="script.js"></script>
+<script>
+function lookupCar() {
+    const reg = document.getElementById('reg-input').value.trim().toUpperCase();
+    const makeOutput = document.getElementById('make-output');
+    const modelOutput = document.getElementById('model-output');
+
+    const regData = {
+        '151D12345': { make: 'Toyota', model: 'Yaris' },
+        '161D54321': { make: 'Toyota', model: 'Corolla' },
+        '171C67890': { make: 'Toyota', model: 'Rav4' }
+    };
+
+    if (regData[reg]) {
+        makeOutput.textContent = regData[reg].make;
+        modelOutput.textContent = regData[reg].model;
+    } else {
+        makeOutput.textContent = 'Not Found';
+        modelOutput.textContent = 'Not Found';
+    }
+}
+</script>
 </body>
 </html>
