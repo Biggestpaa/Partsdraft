@@ -24,8 +24,9 @@
       <p><strong>Model:</strong> <span id="model-output">—</span></p>
     </div>
   </div>
-  <div class="live-cart" onclick="window.location.href='cart.html'">
+  <div class="live-cart" onmouseover="showCartPreview()" onmouseout="hideCartPreview()">
     <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
+    <div id="cart-preview" class="cart-preview"></div>
   </div>
   <script src="script.js"></script>
   <script>
@@ -40,6 +41,28 @@
       document.getElementById('make-output').textContent = result ? result.make : 'Not Found';
       document.getElementById('model-output').textContent = result ? result.model : 'Not Found';
     }
+
+    function showCartPreview() {
+      const cartPreview = document.getElementById('cart-preview');
+      cartPreview.style.display = 'block';
+      updateCartPreview();
+    }
+
+    function hideCartPreview() {
+      document.getElementById('cart-preview').style.display = 'none';
+    }
+
+    function updateCartPreview() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let html = '<ul>';
+      cart.forEach(item => {
+        html += `<li>${item.name} - €${item.price.toFixed(2)}</li>`;
+      });
+      html += '</ul>';
+      document.getElementById('cart-preview').innerHTML = cart.length ? html : '<p>Your cart is empty.</p>';
+    }
+
+    updateCartPreview();
   </script>
 </body>
 </html>
