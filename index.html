@@ -24,9 +24,9 @@
       <p><strong>Model:</strong> <span id="model-output">—</span></p>
     </div>
   </div>
-  <div class="live-cart" onmouseover="showCartPreview()" onmouseout="hideCartPreview()">
+  <div class="live-cart-old" onmouseover="showCartPreview()" onmouseout="hideCartPreview()">
     <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
-    <div id="cart-preview" class="cart-preview"></div>
+    <div id="cart-preview-old" class="cart-preview"></div>
   </div>
   <script src="script.js"></script>
   <script>
@@ -64,5 +64,11 @@
 
     updateCartPreview();
   </script>
+
+<div class="live-cart" onclick="toggleCartPreview()">
+  <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
+</div>
+<div id="cart-preview" class="cart-preview"></div>
+
 </body>
 </html>

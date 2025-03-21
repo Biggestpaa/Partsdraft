@@ -18,15 +18,21 @@
     <p id="total-price">Total: €0.00</p>
     <button onclick="checkout()">Proceed to Checkout</button>
   </div>
-  <div class="live-cart" onclick="window.location.href='cart.html'">
+  <div class="live-cart-old" onclick="window.location.href='cart.html'">
     <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
   </div>
   <script src="script.js"></script>
 
-<div class="live-cart" onmouseover="showCartPreview()" onmouseout="hideCartPreview()">
+<div class="live-cart-old" onmouseover="showCartPreview()" onmouseout="hideCartPreview()">
   <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
-  <div id="cart-preview" class="cart-preview"></div>
+  <div id="cart-preview-old" class="cart-preview"></div>
 </div>
+
+
+<div class="live-cart" onclick="toggleCartPreview()">
+  <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
+</div>
+<div id="cart-preview" class="cart-preview"></div>
 
 </body>
 </html>

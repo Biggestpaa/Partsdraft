@@ -38,19 +38,13 @@ function checkout() {
 
 window.onload = updateCart;
 
-
-function showCartPreview() {
+function toggleCartPreview() {
   const cartPreview = document.getElementById('cart-preview');
-  if (cartPreview) {
+  if (cartPreview.style.display === 'block') {
+    cartPreview.style.display = 'none';
+  } else {
     cartPreview.style.display = 'block';
     updateCartPreview();
-  }
-}
-
-function hideCartPreview() {
-  const cartPreview = document.getElementById('cart-preview');
-  if (cartPreview) {
-    cartPreview.style.display = 'none';
   }
 }
 
@@ -63,5 +57,6 @@ function updateCartPreview() {
     html += `<li>${item.name} - €${item.price.toFixed(2)}</li>`;
   });
   html += '</ul>';
+  html += '<button onclick="window.location.href=\'cart.html\'">Go to Checkout</button>';
   cartPreview.innerHTML = cart.length ? html : '<p>Your cart is empty.</p>';
 }
