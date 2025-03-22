@@ -1,82 +1,95 @@
-// JavaScript Logic for Toyota Parts Store
 
-const carData = {
-  "151D12345": { make: "Toyota", model: "Yaris" },
-  "161D54321": { make: "Toyota", model: "Corolla" },
-  "171C67890": { make: "Toyota", model: "Rav4" }
-};
-
-function lookupCar() {
-  const reg = document.getElementById('reg-input').value.trim().toUpperCase();
-  const output = carData[reg];
-  document.getElementById('make-output').textContent = output ? output.make : 'Not Found';
-  document.getElementById('model-output').textContent = output ? output.model : 'Not Found';
-  localStorage.setItem('selectedModel', output ? output.model : '');
-}
-
-function toggleDropdown() {
-  const menu = document.getElementById('dropdown-menu');
-  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-}
-
-function toggleSection(id) {
-  const section = document.getElementById(id);
-  section.style.display = section.style.display === 'none' ? 'block' : 'none';
-}
-
-function addToCart(name, price, qtyInputId) {
-  const qty = parseInt(document.getElementById(qtyInputId).value) || 1;
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  const existing = cart.find(item => item.name === name);
-  if (existing) {
-    existing.qty += qty;
-  } else {
-    cart.push({ name, price, qty });
+// --- ADMIN FUNCTIONS --- //
+function saveBanner() {
+  const input = document.getElementById('banner-upload');
+  const file = input.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      localStorage.setItem('bannerImage', e.target.result);
+      alert('Banner image saved!');
+    };
+    reader.readAsDataURL(file);
   }
-  localStorage.setItem('cart', JSON.stringify(cart));
-  alert(name + " added to cart.");
 }
 
-function loadCart() {
-  const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
-  const ul = document.getElementById('cart-items');
-  const total = document.getElementById('total-cost');
-  if (!ul || !total) return;
-  ul.innerHTML = '';
-  let sum = 0;
-  cartItems.forEach((item, index) => {
-    sum += item.price * item.qty;
-    const li = document.createElement('li');
-    li.innerHTML = `${item.name} - Qty: ${item.qty} - €${(item.price * item.qty).toFixed(2)} 
-    <button onclick="removeItem(${index})">Remove</button>`;
-    ul.appendChild(li);
+function saveLogo() {
+  const input = document.getElementById('logo-upload');
+  const file = input.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      localStorage.setItem('cartLogo', e.target.result);
+      alert('Logo image saved!');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function updateProduct(id, key, value) {
+  const parts = JSON.parse(localStorage.getItem('partsData')) || {};
+  parts[id] = parts[id] || {};
+  parts[id][key] = value;
+  localStorage.setItem('partsData', JSON.stringify(parts));
+}
+
+function loadAdminParts() {
+  const list = document.getElementById('admin-parts-list');
+  if (!list) return;
+  const parts = {
+    oil_filter: { name: "Oil Filter", price: 20, desc: "High-efficiency oil filter", img: "images/oil_filter.jpg" },
+    front_brake: { name: "Front Brake Pads", price: 150, desc: "Durable brake pads", img: "images/front_brake.jpg" },
+    petrol_treat: { name: "Petrol Treatment", price: 29, desc: "Boosts performance", img: "images/petrol_treatment.jpg" }
+  };
+  const saved = JSON.parse(localStorage.getItem('partsData')) || {};
+  Object.keys(parts).forEach(id => {
+    const part = { ...parts[id], ...saved[id] };
+    list.innerHTML += `
+      <div>
+        <h4>${id.replace('_', ' ')}</h4>
+        <label>Name: <input value="${part.name}" onchange="updateProduct('${id}', 'name', this.value)" /></label><br/>
+        <label>Price: <input type="number" value="${part.price}" onchange="updateProduct('${id}', 'price', this.value)" /></label><br/>
+        <label>Description: <input value="${part.desc}" onchange="updateProduct('${id}', 'desc', this.value)" /></label><br/>
+        <label>Image: <input type="file" onchange="savePartImage(event, '${id}')"></label>
+      </div><hr/>
+    `;
   });
-  total.innerHTML = '<strong>Total: €' + sum.toFixed(2) + '</strong>';
 }
 
-function removeItem(index) {
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  cart.splice(index, 1);
-  localStorage.setItem('cart', JSON.stringify(cart));
-  loadCart();
+function savePartImage(e, id) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (evt) {
+      const parts = JSON.parse(localStorage.getItem('partsData')) || {};
+      parts[id] = parts[id] || {};
+      parts[id]['img'] = evt.target.result;
+      localStorage.setItem('partsData', JSON.stringify(parts));
+    };
+    reader.readAsDataURL(file);
+  }
 }
 
-function goToCheckout() {
-  window.location.href = "checkout.html";
-}
-
-function loadCheckoutSummary() {
-  const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
-  const ul = document.getElementById('checkout-summary');
-  const total = document.getElementById('checkout-total');
-  if (!ul || !total) return;
-  ul.innerHTML = '';
-  let sum = 0;
-  cartItems.forEach(item => {
-    sum += item.price * item.qty;
-    const li = document.createElement('li');
-    li.textContent = `${item.name} - Qty: ${item.qty} - €${(item.price * item.qty).toFixed(2)}`;
-    ul.appendChild(li);
+function applyAdminSettings() {
+  const banner = localStorage.getItem('bannerImage');
+  if (banner) {
+    const img = document.getElementById('banner-image');
+    if (img) img.src = banner;
+  }
+  const logo = localStorage.getItem('cartLogo');
+  if (logo) {
+    const img = document.getElementById('cart-logo');
+    if (img) img.src = logo;
+  }
+  const partsData = JSON.parse(localStorage.getItem('partsData') || '{}');
+  Object.keys(partsData).forEach(id => {
+    const part = partsData[id];
+    const container = document.querySelector('[data-part="' + id + '"]');
+    if (container) {
+      container.querySelector('h3').textContent = part.name;
+      container.querySelector('p.desc').textContent = part.desc;
+      container.querySelector('p.price').innerHTML = "<strong>€" + parseFloat(part.price).toFixed(2) + "</strong>";
+      container.querySelector('img').src = part.img;
+    }
   });
-  total.innerHTML = '<strong>Total: €' + sum.toFixed(2) + '</strong>';
 }

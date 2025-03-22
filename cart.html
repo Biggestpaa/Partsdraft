@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cart - Toyota Parts Store</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body onload="loadCart()">
   <header>
     <h1>Your Cart</h1>
   </header>
-
   <div class="container fade-in">
     <ul id="cart-items" class="cart-list"></ul>
     <p id="total-cost"><strong>Total: €0.00</strong></p>
     <button onclick="goToCheckout()">Proceed to Checkout</button>
   </div>
-
-  <!-- Floating Live Cart -->
   <div class="live-cart" onclick="toggleCartPreview()">
     <img id="cart-logo" src="images/cart-icon.png" alt="Cart">
   </div>
   <div id="cart-preview" class="cart-preview"></div>
-
   <script src="script.js"></script>
 </body>
 </html>

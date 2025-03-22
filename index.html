@@ -11,7 +11,16 @@
     <img id="banner-image" src="images/banner.jpg" alt="Banner" class="banner"/>
     <h1>Welcome to Toyota Liffey Valley Parts Store</h1>
   </header>
-  
+  <div class="menu">
+    <button onclick="toggleDropdown()" class="dropdown-btn">Menu ▼</button>
+    <div id="dropdown-menu" class="dropdown-content">
+      <a href="index.html">Home</a>
+      <a href="parts.html">Parts List</a>
+      <a href="cart.html">Cart</a>
+      <a href="checkout.html">Checkout</a>
+      <a href="admin.html">Admin</a>
+    </div>
+  </div>
   <div class="container fade-in">
     <h2>Enter Your Registration</h2>
     <input type="text" id="reg-input" placeholder="e.g. 151D12345">
@@ -21,16 +30,6 @@
       <p><strong>Model:</strong> <span id="model-output">—</span></p>
     </div>
   </div>
-
-  <div class="menu">
-    <button onclick="toggleDropdown()" class="dropdown-btn">Parts Categories ▼</button>
-    <div id="dropdown-menu" class="dropdown-content">
-      <a href="parts.html#filters">Filters</a>
-      <a href="parts.html#brakes">Brakes</a>
-      <a href="parts.html#fuel">Fuel Treatments</a>
-    </div>
-  </div>
-
   <script src="script.js"></script>
 </body>
 </html>
