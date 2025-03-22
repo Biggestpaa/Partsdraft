@@ -5,30 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Parts - Toyota Parts Store</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .sub-banner {
-      background-color: #d71920;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      font-size: 18px;
-    }
-  </style>
 </head>
 <body onload="loadBanner(); showVehicleInfo(); loadPartsHeader(); loadPartsIntro();">
-  <header>
-    <img id="banner-image" src="banner.jpg" alt="Banner Image" />
-    <h1 id="parts-title">Available Parts</h1>
-    <nav class="nav">
-      <a href="index.html">Home</a>
-    </nav>
-    <div id="vehicle-info" class="sub-banner"></div>
+  <header class="header">
+    <img id="banner-image" src="banner.jpg" alt="Toyota Banner" class="banner-img" />
+    <div class="header-text">
+      <h1 id="parts-title">Available Parts</h1>
+      <p id="vehicle-info" class="sub-banner">Vehicle: Unknown</p>
+      <p id="parts-intro">Please select a category below to find parts for your Toyota.</p>
+    </div>
   </header>
 
-  <div class="container fade-in">
-    <p id="parts-intro">Please select a category below to find parts for your Toyota.</p>
-    <!-- parts list goes here -->
-  </div>
+  <main class="main">
+    <div class="card">
+      <p style="text-align: center; color: #888;">Parts list and categories coming soon.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Toyota Liffey Valley. All rights reserved.</p>
+  </footer>
 
   <script>
     function loadBanner() {
@@ -44,8 +40,6 @@
       const subBanner = document.getElementById('vehicle-info');
       if (make && model && reg) {
         subBanner.textContent = `Vehicle: ${make} ${model} (${reg})`;
-      } else {
-        subBanner.textContent = "Vehicle: Unknown";
       }
     }
 
