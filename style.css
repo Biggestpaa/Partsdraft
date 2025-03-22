@@ -16,6 +16,18 @@ img#banner-image {
   object-fit: cover;
   border-bottom: 2px solid #d71920;
 }
+.nav {
+  margin-top: 10px;
+}
+.nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+}
+.nav a:hover {
+  text-decoration: underline;
+}
 .container {
   text-align: center;
   padding: 30px;
