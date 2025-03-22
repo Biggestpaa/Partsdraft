@@ -7,14 +7,15 @@ body {
 }
 header {
   text-align: center;
-  padding: 20px;
+  padding: 0;
   background: linear-gradient(to right, #d71920, #000);
 }
 img#banner-image {
-  width: 100%;
-  max-height: 250px;
+  width: 100vw;
+  height: 25vh;
   object-fit: cover;
-  border-bottom: 2px solid #d71920;
+  display: block;
+  margin: 0 auto;
 }
 .nav {
   margin-top: 10px;
