@@ -93,3 +93,18 @@ function applyAdminSettings() {
     }
   });
 }
+
+// --- Apply Admin Customizations on Page Load --- //
+function applyAdminSettings() {
+  const banner = localStorage.getItem('bannerImage');
+  if (banner) {
+    const img = document.getElementById('banner-image');
+    if (img) img.src = banner;
+  }
+  const logo = localStorage.getItem('cartLogo');
+  if (logo) {
+    const img = document.getElementById('cart-logo');
+    if (img) img.src = logo;
+  }
+}
+document.addEventListener('DOMContentLoaded', applyAdminSettings);
