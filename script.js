@@ -2,15 +2,18 @@
 // --- ADMIN FUNCTIONS --- //
 function saveBanner() {
   const input = document.getElementById('banner-upload');
-  const file = input.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      localStorage.setItem('bannerImage', e.target.result);
-      alert('Banner image saved!');
-    };
-    reader.readAsDataURL(file);
-  }
+  if (!input || !input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const imgData = e.target.result;
+    localStorage.setItem('bannerImage', imgData);
+    const banner = document.getElementById('banner-image');
+    if (banner) banner.src = imgData;
+    alert("Banner image updated successfully!");
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+}
 }
 
 function saveLogo() {
