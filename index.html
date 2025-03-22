@@ -8,9 +8,14 @@
 </head>
 <body onload="loadBanner()">
   <header>
-    <img id="banner-image" src="banner.jpg" alt="Banner" class="banner"/>
+    <img id="banner-image" src="banner.jpg" alt="Banner Image" />
     <h1>Welcome to Toyota Liffey Valley Parts Store</h1>
   </header>
-  <script src="script.js"></script>
+  <script>
+    function loadBanner() {
+      const stored = localStorage.getItem('bannerImage');
+      if (stored) document.getElementById('banner-image').src = stored;
+    }
+  </script>
 </body>
 </html>

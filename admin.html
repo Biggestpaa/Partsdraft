@@ -8,15 +8,33 @@
 </head>
 <body onload="loadBanner()">
   <header>
-    <img id="banner-image" src="banner.jpg" alt="Banner" class="banner"/>
+    <img id="banner-image" src="banner.jpg" alt="Banner Image" />
     <h1>Admin Panel</h1>
   </header>
   <div class="container fade-in">
-    <h2>Edit Site Banner</h2>
+    <h2>Update Banner Image</h2>
     <input type="file" id="banner-upload" accept="image/*">
     <br><br>
     <button onclick="saveBanner()">Update Banner</button>
   </div>
-  <script src="script.js"></script>
+  <script>
+    function loadBanner() {
+      const stored = localStorage.getItem('bannerImage');
+      if (stored) document.getElementById('banner-image').src = stored;
+    }
+
+    function saveBanner() {
+      const input = document.getElementById('banner-upload');
+      if (!input || !input.files[0]) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const dataUrl = e.target.result;
+        localStorage.setItem('bannerImage', dataUrl);
+        document.getElementById('banner-image').src = dataUrl;
+        alert("Banner updated successfully!");
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  </script>
 </body>
 </html>
