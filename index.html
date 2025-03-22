@@ -6,7 +6,6 @@
   <title>Home - Toyota Parts Store</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .autofill-result p { margin: 5px 0; font-weight: bold; }
     .cta-button {
       margin-top: 20px;
       padding: 12px 20px;
@@ -38,13 +37,6 @@
     <input type="text" id="reg-input" placeholder="e.g. 151D12345">
     <br><br>
     <button onclick="checkReg()">Continue</button>
-
-    <div id="autofill" class="autofill-result" style="margin-top:20px;">
-      <p>Make: <span id="make-output">—</span></p>
-      <p>Model: <span id="model-output">—</span></p>
-    </div>
-
-    <button class="cta-button" onclick="viewParts()">View Available Parts</button>
   </div>
 
   <script>
@@ -64,22 +56,18 @@
       const reg = document.getElementById('reg-input').value.trim().toUpperCase();
       const info = regDatabase[reg];
       if (info) {
-        document.getElementById('make-output').textContent = info.make;
-        document.getElementById('model-output').textContent = info.model;
         if (reg === "152D12345") {
           window.location.href = "admin.html";
         } else {
-          window.location.href = "parts.html";
+          const url = new URL("parts.html", window.location.href);
+          url.searchParams.set("make", info.make);
+          url.searchParams.set("model", info.model);
+          url.searchParams.set("reg", reg);
+          window.location.href = url.toString();
         }
       } else {
-        document.getElementById('make-output').textContent = "Unknown";
-        document.getElementById('model-output').textContent = "Unknown";
         alert("Registration not recognized.");
       }
-    }
-
-    function viewParts() {
-      alert("Parts page coming soon!");
     }
   </script>
 </body>
