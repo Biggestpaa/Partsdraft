@@ -12,13 +12,28 @@
     <h1>Welcome to Toyota Liffey Valley Parts Store</h1>
     <nav class="nav">
       <a href="index.html">Home</a>
-      <a href="admin.html">Admin</a>
     </nav>
   </header>
+  <div class="container fade-in">
+    <h2>Enter Your Registration</h2>
+    <input type="text" id="reg-input" placeholder="e.g. 151D12345">
+    <br><br>
+    <button onclick="checkReg()">Continue</button>
+  </div>
+
   <script>
     function loadBanner() {
       const stored = localStorage.getItem('bannerImage');
       if (stored) document.getElementById('banner-image').src = stored;
+    }
+
+    function checkReg() {
+      const reg = document.getElementById('reg-input').value.trim().toUpperCase();
+      if (reg === "152D12345") {
+        window.location.href = "admin.html";
+      } else {
+        alert("Registration not recognized for admin access.");
+      }
     }
   </script>
 </body>
