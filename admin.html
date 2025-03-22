@@ -6,35 +6,16 @@
   <title>Admin Panel - Toyota Parts Store</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body onload="applyAdminSettings(); loadAdminParts()">
+<body onload="loadBanner()">
   <header>
-    <img id="banner-image" src="images/banner.jpg" alt="Banner" class="banner"/>
+    <img id="banner-image" src="banner.jpg" alt="Banner" class="banner"/>
     <h1>Admin Panel</h1>
   </header>
-  <div class="menu">
-    <button onclick="toggleDropdown()" class="dropdown-btn">Menu ▼</button>
-    <div id="dropdown-menu" class="dropdown-content">
-      <a href="index.html">Home</a>
-      <a href="parts.html">Parts List</a>
-      <a href="cart.html">Cart</a>
-      <a href="checkout.html">Checkout</a>
-      <a href="admin.html">Admin</a>
-    </div>
-  </div>
   <div class="container fade-in">
-    <h2>Edit Site Content</h2>
-    <h3>Banner Image</h3>
+    <h2>Edit Site Banner</h2>
     <input type="file" id="banner-upload" accept="image/*">
+    <br><br>
     <button onclick="saveBanner()">Update Banner</button>
-
-    <h3>Cart Logo</h3>
-    <input type="file" id="logo-upload" accept="image/*">
-    <button onclick="saveLogo()">Update Logo</button>
-
-    <h3>Parts</h3>
-    <div id="admin-parts-list">
-      <!-- Admin editable parts injected by JS -->
-    </div>
   </div>
   <script src="script.js"></script>
 </body>
