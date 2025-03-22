@@ -2,44 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Home - Toyota Parts Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toyota Liffey Valley Parts</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .cta-button {
-      margin-top: 20px;
-      padding: 12px 20px;
-      font-size: 16px;
-      background-color: #d71920;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .cta-button:hover {
-      background-color: #b5151c;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body onload="loadBanner(); loadWelcomeMessage(); loadHeaderTitle();">
-  <header>
-    <img id="banner-image" src="banner.jpg" alt="Banner Image" />
-    <h1 id="header-title">Welcome to Toyota Liffey Valley Parts Store</h1>
-    <nav class="nav">
-      <a href="index.html">Home</a>
-    </nav>
+  <header class="header">
+    <img id="banner-image" src="banner.jpg" alt="Toyota GR Banner" class="banner-img" />
+    <div class="header-text">
+      <h1 id="header-title">Welcome to Toyota Liffey Valley Parts Store</h1>
+      <p id="welcome-message">
+        Book and order genuine Toyota parts online. Enter your registration to see parts tailored to your vehicle. Click & Collect available.
+      </p>
+    </div>
   </header>
 
-  <div class="container fade-in">
-    <p id="welcome-message">
-      Book and order genuine Toyota parts online. Enter your vehicle registration to view available parts tailored to your Toyota. Quick, convenient, and Click & Collect ready.
-    </p>
+  <main class="main">
+    <div class="card input-card">
+      <label for="reg-input">Enter Your Vehicle Registration:</label>
+      <input type="text" id="reg-input" placeholder="e.g. 151D12345" />
+      <button onclick="checkReg()">Continue</button>
+    </div>
+  </main>
 
-    <h2>Enter Your Registration</h2>
-    <input type="text" id="reg-input" placeholder="e.g. 151D12345">
-    <br><br>
-    <button onclick="checkReg()">Continue</button>
-  </div>
+  <footer class="footer">
+    <p>&copy; 2025 Toyota Liffey Valley. All rights reserved.</p>
+  </footer>
 
   <script>
     const regDatabase = {
