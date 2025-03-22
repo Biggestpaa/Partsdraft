@@ -1,35 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout - Toyota Parts Store</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>Toyota Liffey Valley Parts Store</header>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="parts.html">Parts List</a>
-  </nav>
-  <div class="container">
-    <h2>Purchase Confirmed</h2>
-    <p>Thank you for your purchase! Your order is now ready for collection.</p>
-  </div>
-  <div class="live-cart-old" onclick="window.location.href='cart.html'">
-    <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
+  <header>
+    <h1>Order Summary</h1>
+  </header>
+
+  <div class="container fade-in">
+    <ul id="checkout-summary" class="cart-list"></ul>
+    <p id="checkout-total"><strong>Total: €0.00</strong></p>
+    <a href="https://payment-link.example.com" class="checkout-link" target="_blank">Proceed to Payment</a>
   </div>
 
-<div class="live-cart-old" onmouseover="showCartPreview()" onmouseout="hideCartPreview()">
-  <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
-  <div id="cart-preview-old" class="cart-preview"></div>
-</div>
-
-
-<div class="live-cart" onclick="toggleCartPreview()">
-  <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
-</div>
-<div id="cart-preview" class="cart-preview"></div>
-
+  <script src="script.js"></script>
 </body>
 </html>

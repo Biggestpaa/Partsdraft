@@ -7,58 +7,59 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>Toyota Liffey Valley Parts Store</header>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="cart.html">Cart & Checkout</a>
-  </nav>
-  <div class="container">
-    <h2>Parts List</h2>
+  <header>
+    <h1>Toyota Parts Catalog</h1>
+  </header>
+
+  <div class="container fade-in">
+    <h2>Available Parts</h2>
+
+    <!-- Filters -->
     <div class="category" onclick="toggleSection('filters')">Filters ▼</div>
     <div id="filters" class="product-list">
-      <div class="product"><span>Oil Filter (€20)</span><button onclick="addToCart('Oil Filter', 20)">Add</button></div>
-      <div class="product"><span>Air Filter (€15)</span><button onclick="addToCart('Air Filter', 15)">Add</button></div>
+      <div class="product" data-car="Yaris Corolla Rav4">
+        <img src="images/oil_filter.jpg" alt="Oil Filter" />
+        <div>
+          <h3>Oil Filter</h3>
+          <p>High-efficiency oil filter for peak engine protection.</p>
+          <label>Quantity: <input type="number" min="1" value="1" id="qty-oil-filter"/></label>
+          <p><strong>€20</strong></p>
+          <button onclick="addToCart('Oil Filter', 20, 'qty-oil-filter')">Add</button>
+        </div>
+      </div>
     </div>
 
+    <!-- Brakes -->
     <div class="category" onclick="toggleSection('brakes')">Brakes ▼</div>
     <div id="brakes" class="product-list">
-      <div class="product"><span>Front Brakes (€150)</span><button onclick="addToCart('Front Brakes', 150)">Add</button></div>
-      <div class="product"><span>Rear Brakes (€110)</span><button onclick="addToCart('Rear Brakes', 110)">Add</button></div>
+      <div class="product" data-car="Yaris Corolla Rav4">
+        <img src="images/front_brake.jpg" alt="Front Brake" />
+        <div>
+          <h3>Front Brake Pads</h3>
+          <p>Durable front brake pads for reliable stopping power.</p>
+          <label>Quantity: <input type="number" min="1" value="1" id="qty-front-brake"/></label>
+          <p><strong>€150</strong></p>
+          <button onclick="addToCart('Front Brake Pads', 150, 'qty-front-brake')">Add</button>
+        </div>
+      </div>
     </div>
 
-    <div class="category" onclick="toggleSection('fuel')">Fuel Treatment ▼</div>
+    <!-- Fuel Treatments -->
+    <div class="category" onclick="toggleSection('fuel')">Fuel Treatments ▼</div>
     <div id="fuel" class="product-list">
-      <div class="product"><span>Petrol Treatment (€29)</span><button onclick="addToCart('Petrol Treatment', 29)">Add</button></div>
-      <div class="product"><span>Diesel Treatment (€34)</span><button onclick="addToCart('Diesel Treatment', 34)">Add</button></div>
+      <div class="product" data-car="Yaris Corolla Rav4">
+        <img src="images/petrol_treatment.jpg" alt="Petrol Treatment" />
+        <div>
+          <h3>Petrol Treatment</h3>
+          <p>Boosts engine performance and fuel efficiency.</p>
+          <label>Quantity: <input type="number" min="1" value="1" id="qty-petrol-treatment"/></label>
+          <p><strong>€29</strong></p>
+          <button onclick="addToCart('Petrol Treatment', 29, 'qty-petrol-treatment')">Add</button>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="live-cart-old" onclick="window.location.href='cart.html'">
-    <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
-  </div>
+
   <script src="script.js"></script>
-  <script>
-    function toggleSection(id) {
-      const section = document.getElementById(id);
-      section.style.display = section.style.display === 'none' ? 'block' : 'none';
-    }
-    window.onload = function () {
-      updateCart();
-      document.getElementById('filters').style.display = 'none';
-      document.getElementById('brakes').style.display = 'none';
-      document.getElementById('fuel').style.display = 'none';
-    };
-  </script>
-
-<div class="live-cart-old" onmouseover="showCartPreview()" onmouseout="hideCartPreview()">
-  <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
-  <div id="cart-preview-old" class="cart-preview"></div>
-</div>
-
-
-<div class="live-cart" onclick="toggleCartPreview()">
-  <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" />
-</div>
-<div id="cart-preview" class="cart-preview"></div>
-
 </body>
 </html>
