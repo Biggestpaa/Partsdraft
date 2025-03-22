@@ -6,13 +6,12 @@
   <title>Admin Panel - Toyota Parts Store</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body onload="loadBanner()">
+<body onload="loadBanner(); loadWelcomeMessage();">
   <header>
     <img id="banner-image" src="banner.jpg" alt="Banner Image" />
     <h1>Admin Panel</h1>
     <nav class="nav">
       <a href="index.html">Home</a>
-      <a href="admin.html">Admin</a>
     </nav>
   </header>
   <div class="container fade-in">
@@ -20,7 +19,14 @@
     <input type="file" id="banner-upload" accept="image/*">
     <br><br>
     <button onclick="saveBanner()">Update Banner</button>
+
+    <hr><br>
+    <h2>Edit Welcome Message</h2>
+    <textarea id="welcome-input" rows="4" cols="50" placeholder="Edit welcome message..."></textarea><br><br>
+    <button onclick="saveWelcomeMessage()">Save Message</button>
+    <button onclick="resetWelcomeMessage()">Reset to Default</button>
   </div>
+
   <script>
     function loadBanner() {
       const stored = localStorage.getItem('bannerImage');
@@ -38,6 +44,23 @@
         alert("Banner updated successfully!");
       };
       reader.readAsDataURL(input.files[0]);
+    }
+
+    function saveWelcomeMessage() {
+      const message = document.getElementById('welcome-input').value;
+      localStorage.setItem('welcomeMessage', message);
+      alert("Welcome message updated!");
+    }
+
+    function loadWelcomeMessage() {
+      const stored = localStorage.getItem('welcomeMessage');
+      if (stored) document.getElementById('welcome-input').value = stored;
+    }
+
+    function resetWelcomeMessage() {
+      localStorage.removeItem('welcomeMessage');
+      document.getElementById('welcome-input').value = '';
+      alert("Welcome message reset to default.");
     }
   </script>
 </body>

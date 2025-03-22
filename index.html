@@ -21,7 +21,7 @@
     }
   </style>
 </head>
-<body onload="loadBanner()">
+<body onload="loadBanner(); loadWelcomeMessage();">
   <header>
     <img id="banner-image" src="banner.jpg" alt="Banner Image" />
     <h1>Welcome to Toyota Liffey Valley Parts Store</h1>
@@ -31,7 +31,9 @@
   </header>
 
   <div class="container fade-in">
-    <p>Book and order genuine Toyota parts online. Enter your vehicle registration to view available parts tailored to your Toyota. Quick, convenient, and Click & Collect ready.</p>
+    <p id="welcome-message">
+      Book and order genuine Toyota parts online. Enter your vehicle registration to view available parts tailored to your Toyota. Quick, convenient, and Click & Collect ready.
+    </p>
 
     <h2>Enter Your Registration</h2>
     <input type="text" id="reg-input" placeholder="e.g. 151D12345">
@@ -50,6 +52,11 @@
     function loadBanner() {
       const stored = localStorage.getItem('bannerImage');
       if (stored) document.getElementById('banner-image').src = stored;
+    }
+
+    function loadWelcomeMessage() {
+      const message = localStorage.getItem('welcomeMessage');
+      if (message) document.getElementById('welcome-message').textContent = message;
     }
 
     function checkReg() {
