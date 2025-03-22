@@ -48,37 +48,39 @@
   </div>
 
   <script>
-    const regDatabase = {{
-      "152D12345": {{ make: "Toyota", model: "Admin Access" }},
-      "151D12345": {{ make: "Toyota", model: "Yaris" }},
-      "161C45678": {{ make: "Toyota", model: "Corolla" }},
-      "171G78901": {{ make: "Toyota", model: "RAV4" }}
-    }};
+    const regDatabase = {
+      "152D12345": { make: "Toyota", model: "Admin Access" },
+      "151D12345": { make: "Toyota", model: "Yaris" },
+      "161C45678": { make: "Toyota", model: "Corolla" },
+      "171G78901": { make: "Toyota", model: "RAV4" }
+    };
 
-    function loadBanner() {{
+    function loadBanner() {
       const stored = localStorage.getItem('bannerImage');
       if (stored) document.getElementById('banner-image').src = stored;
-    }}
+    }
 
-    function checkReg() {{
+    function checkReg() {
       const reg = document.getElementById('reg-input').value.trim().toUpperCase();
       const info = regDatabase[reg];
-      if (info) {{
+      if (info) {
         document.getElementById('make-output').textContent = info.make;
         document.getElementById('model-output').textContent = info.model;
-        if (reg === "152D12345") {{
+        if (reg === "152D12345") {
           window.location.href = "admin.html";
-        }}
-      }} else {{
+        } else {
+          window.location.href = "parts.html";
+        }
+      } else {
         document.getElementById('make-output').textContent = "Unknown";
         document.getElementById('model-output').textContent = "Unknown";
         alert("Registration not recognized.");
-      }}
-    }}
+      }
+    }
 
-    function viewParts() {{
+    function viewParts() {
       alert("Parts page coming soon!");
-    }}
+    }
   </script>
 </body>
 </html>
