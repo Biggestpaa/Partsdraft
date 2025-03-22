@@ -26,7 +26,17 @@
     <button onclick="saveHeaderTitle()">Save Title</button>
     <button onclick="resetHeaderTitle()">Reset Title</button>
     <hr><br>
-    <h2>Edit Welcome Message</h2>
+    <h2>Edit Parts Page Title</h2>
+<input type="text" id="parts-title-input" placeholder="Parts Page Title..." style="width: 100%;"><br><br>
+<button onclick="savePartsTitle()">Save Parts Title</button>
+<button onclick="resetPartsTitle()">Reset Parts Title</button>
+<br><br>
+<h2>Edit Parts Page Intro</h2>
+<textarea id="parts-intro-input" rows="3" cols="50" placeholder="Edit parts intro..."></textarea><br><br>
+<button onclick="savePartsIntro()">Save Parts Intro</button>
+<button onclick="resetPartsIntro()">Reset Parts Intro</button>
+<br><hr><br>
+<h2>Edit Welcome Message</h2>
     <textarea id="welcome-input" rows="4" cols="50" placeholder="Edit welcome message..."></textarea><br><br>
     <button onclick="saveWelcomeMessage()">Save Message</button>
     <button onclick="resetWelcomeMessage()">Reset to Default</button>
@@ -86,6 +96,47 @@
       const storedTitle = localStorage.getItem('headerTitle');
       if (storedTitle) {
         document.getElementById('header-title-input').value = storedTitle;
+      }
+    };
+    
+    function savePartsTitle() {
+      const title = document.getElementById('parts-title-input').value;
+      localStorage.setItem('partsTitle', title);
+      alert("Parts page title updated!");
+    }
+
+    function resetPartsTitle() {
+      localStorage.removeItem('partsTitle');
+      document.getElementById('parts-title-input').value = '';
+      alert("Parts page title reset.");
+    }
+
+    function savePartsIntro() {
+      const intro = document.getElementById('parts-intro-input').value;
+      localStorage.setItem('partsIntro', intro);
+      alert("Parts intro updated!");
+    }
+
+    function resetPartsIntro() {
+      localStorage.removeItem('partsIntro');
+      document.getElementById('parts-intro-input').value = '';
+      alert("Parts intro reset.");
+    }
+
+    window.onload = function() {
+      loadBanner();
+      loadWelcomeMessage();
+      const storedTitle = localStorage.getItem('headerTitle');
+      if (storedTitle) {
+        document.getElementById('header-title-input').value = storedTitle;
+      }
+      const partsTitle = localStorage.getItem('partsTitle');
+      if (partsTitle) {
+        document.getElementById('parts-title-input').value = partsTitle;
+      }
+      const partsIntro = localStorage.getItem('partsIntro');
+      if (partsIntro) {
+        document.getElementById('parts-intro-input').value = partsIntro;
       }
     };
     </script>
