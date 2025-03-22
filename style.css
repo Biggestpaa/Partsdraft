@@ -65,6 +65,7 @@ body {
 }
 
 .card input {
+  box-sizing: border-box;
   width: 100%;
   padding: 12px;
   border: 1px solid #444;
