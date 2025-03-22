@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Home - Toyota Parts Store</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .autofill-result p { margin: 5px 0; font-weight: bold; }
+    .cta-button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #d71920;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .cta-button:hover {
+      background-color: #b5151c;
+    }
+  </style>
 </head>
 <body onload="loadBanner()">
   <header>
@@ -14,27 +30,55 @@
       <a href="index.html">Home</a>
     </nav>
   </header>
+
   <div class="container fade-in">
+    <p>Book and order genuine Toyota parts online. Enter your vehicle registration to view available parts tailored to your Toyota. Quick, convenient, and Click & Collect ready.</p>
+
     <h2>Enter Your Registration</h2>
     <input type="text" id="reg-input" placeholder="e.g. 151D12345">
     <br><br>
     <button onclick="checkReg()">Continue</button>
+
+    <div id="autofill" class="autofill-result" style="margin-top:20px;">
+      <p>Make: <span id="make-output">—</span></p>
+      <p>Model: <span id="model-output">—</span></p>
+    </div>
+
+    <button class="cta-button" onclick="viewParts()">View Available Parts</button>
   </div>
 
   <script>
-    function loadBanner() {
+    const regDatabase = {{
+      "152D12345": {{ make: "Toyota", model: "Admin Access" }},
+      "151D12345": {{ make: "Toyota", model: "Yaris" }},
+      "161C45678": {{ make: "Toyota", model: "Corolla" }},
+      "171G78901": {{ make: "Toyota", model: "RAV4" }}
+    }};
+
+    function loadBanner() {{
       const stored = localStorage.getItem('bannerImage');
       if (stored) document.getElementById('banner-image').src = stored;
-    }
+    }}
 
-    function checkReg() {
+    function checkReg() {{
       const reg = document.getElementById('reg-input').value.trim().toUpperCase();
-      if (reg === "152D12345") {
-        window.location.href = "admin.html";
-      } else {
-        alert("Registration not recognized for admin access.");
-      }
-    }
+      const info = regDatabase[reg];
+      if (info) {{
+        document.getElementById('make-output').textContent = info.make;
+        document.getElementById('model-output').textContent = info.model;
+        if (reg === "152D12345") {{
+          window.location.href = "admin.html";
+        }}
+      }} else {{
+        document.getElementById('make-output').textContent = "Unknown";
+        document.getElementById('model-output').textContent = "Unknown";
+        alert("Registration not recognized.");
+      }}
+    }}
+
+    function viewParts() {{
+      alert("Parts page coming soon!");
+    }}
   </script>
 </body>
 </html>
