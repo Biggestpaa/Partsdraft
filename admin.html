@@ -6,8 +6,9 @@
   <title>Admin Panel - Toyota Parts Store</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body onload="applyAdminSettings(); loadAdminParts()">
   <header>
+    <img id="banner-image" src="images/banner.jpg" alt="Banner" class="banner"/>
     <h1>Admin Panel</h1>
   </header>
   <div class="menu">
@@ -25,9 +26,11 @@
     <h3>Banner Image</h3>
     <input type="file" id="banner-upload" accept="image/*">
     <button onclick="saveBanner()">Update Banner</button>
+
     <h3>Cart Logo</h3>
     <input type="file" id="logo-upload" accept="image/*">
     <button onclick="saveLogo()">Update Logo</button>
+
     <h3>Parts</h3>
     <div id="admin-parts-list">
       <!-- Admin editable parts injected by JS -->
