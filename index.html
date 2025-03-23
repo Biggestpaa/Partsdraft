@@ -13,10 +13,9 @@
 
   <main class="main">
     <div class="card">
-      <h2>Welcome to Toyota Liffey Valley Parts Store</h2>
+      <h2 id="home-heading">Welcome to Toyota Liffey Valley Parts Store</h2>
       <p id="welcome-text">Enter your vehicle registration to browse genuine Toyota parts and accessories.</p>
-      <input id="reg-input" type="text" placeholder="Enter Registration (e.g. 151D12345)" />
-      
+      <input id="reg-input" type="text" placeholder="Enter Registration (e.g. 151D12345)" oninput="handleRegInput()" />
     </div>
   </main>
 
@@ -25,34 +24,44 @@
   </footer>
 
   <script>
-    function redirectToPage(page) {
-      const reg = document.getElementById('reg-input')?.value?.toUpperCase();
-      let make = '';
-      let model = '';
+    let regTimer = null;
 
-      if (reg === "151D12345") {
-        make = "Toyota";
-        model = "Yaris";
-      } else if (reg === "161D54321") {
-        make = "Toyota";
-        model = "Corolla";
-      } else if (reg === "171D67890") {
-        make = "Toyota";
-        model = "Rav4";
-      } else if (reg === "152D12345") {
-        window.location.href = "admin.html";
-        return;
-      } else {
-        alert("Unknown registration. Please use demo reg.");
-        return;
-      }
+    function handleRegInput() {
+      clearTimeout(regTimer);
+      regTimer = setTimeout(() => {
+        const reg = document.getElementById('reg-input')?.value?.toUpperCase();
+        let make = '';
+        let model = '';
 
-      window.location.href = `${page}?reg=${reg}&make=${make}&model=${model}`;
+        if (reg === "151D12345") {
+          make = "Toyota";
+          model = "Yaris";
+        } else if (reg === "161D54321") {
+          make = "Toyota";
+          model = "Corolla";
+        } else if (reg === "171D67890") {
+          make = "Toyota";
+          model = "Rav4";
+        } else if (reg === "152D12345") {
+          window.location.href = "admin.html";
+          return;
+        } else {
+          alert("Unknown registration. Please use a demo reg.");
+          return;
+        }
+
+        window.location.href = `parts.html?reg=${reg}&make=${make}&model=${model}`;
+      }, 1000);
     }
 
     window.onload = function () {
       const stored = localStorage.getItem("bannerImage");
       if (stored) document.getElementById("banner-image").src = stored;
+
+      const h = localStorage.getItem("homeHeading");
+      const s = localStorage.getItem("homeSubheading");
+      if (h) document.getElementById("home-heading").textContent = h;
+      if (s) document.getElementById("welcome-text").textContent = s;
     }
   </script>
 </body>
