@@ -35,6 +35,25 @@
 
   <main class="main" style="max-width: 900px; margin: auto;">
     <div class="card">
+
+    <div class="section-header" onclick="toggleSection('edit-text-section')">Edit Page Texts</div>
+    <div class="collapsible" id="edit-text-section">
+      <h4>Home Page</h4>
+      <input type="text" id="home-heading" placeholder="Main Heading" />
+      <input type="text" id="home-subheading" placeholder="Subheading" />
+      <button onclick="saveHomeText()">Save Home Text</button>
+
+      <h4>Parts Page</h4>
+      <input type="text" id="parts-heading" placeholder="Parts Heading" />
+      <input type="text" id="parts-subheading" placeholder="Parts Subheading" />
+      <button onclick="savePartsText()">Save Parts Text</button>
+
+      <h4>Accessories Page</h4>
+      <input type="text" id="accessories-heading" placeholder="Accessories Heading" />
+      <input type="text" id="accessories-subheading" placeholder="Accessories Subheading" />
+      <button onclick="saveAccessoriesText()">Save Accessories Text</button>
+    </div>
+    
       <h2>Admin Panel</h2>
 
       <div class="section-header" onclick="toggleSection('banner-section')">Banner</div>
@@ -208,6 +227,25 @@
         container.appendChild(div);
       });
     }
-  </script>
+  
+function saveHomeText() {
+  localStorage.setItem("homeHeading", document.getElementById("home-heading").value);
+  localStorage.setItem("homeSubheading", document.getElementById("home-subheading").value);
+  alert("Home text saved.");
+}
+
+function savePartsText() {
+  localStorage.setItem("partsHeading", document.getElementById("parts-heading").value);
+  localStorage.setItem("partsSubheading", document.getElementById("parts-subheading").value);
+  alert("Parts text saved.");
+}
+
+function saveAccessoriesText() {
+  localStorage.setItem("accessoriesHeading", document.getElementById("accessories-heading").value);
+  localStorage.setItem("accessoriesSubheading", document.getElementById("accessories-subheading").value);
+  alert("Accessories text saved.");
+}
+
+</script>
 </body>
 </html>
