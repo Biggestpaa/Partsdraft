@@ -15,6 +15,19 @@
       border-bottom: 1px solid #333;
     }
 
+    .nav {
+      background-color: #000;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .nav a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
     .category-toggle {
       background-color: #222;
       color: #fff;
@@ -73,10 +86,14 @@
     <img id="banner-image" src="banner.jpg" alt="Toyota Banner" class="banner-img" />
   </header>
 
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="accessories.html">Accessories</a>
+  </nav>
+
   <div class="vehicle-banner" id="vehicle-info">Vehicle: Unknown</div>
 
-  <nav style="background:#111;padding:10px;text-align:center;"><a href="index.html" style="margin:0 10px;color:white;text-decoration:none;">Home</a><a href="accessories.html" style="margin:0 10px;color:white;text-decoration:none;">Accessories</a></nav>
-<main class="main" style="flex-direction: column;">
+  <main class="main" style="flex-direction: column;">
     <div class="card">
       <h2 id="parts-title">Available Parts</h2>
       <p id="parts-intro">Select a category below to view compatible parts.</p>
@@ -92,8 +109,6 @@
     function loadPage() {
       loadBanner();
       showVehicleInfo();
-      loadPartsHeader();
-      loadPartsIntro();
       loadPartsForVehicle();
     }
 
@@ -113,16 +128,6 @@
       }
     }
 
-    function loadPartsHeader() {
-      const title = localStorage.getItem('partsTitle');
-      if (title) document.getElementById('parts-title').textContent = title;
-    }
-
-    function loadPartsIntro() {
-      const intro = localStorage.getItem('partsIntro');
-      if (intro) document.getElementById('parts-intro').textContent = intro;
-    }
-
     function toggleCategoryContent(id) {
       const section = document.getElementById(id);
       section.style.display = section.style.display === 'block' ? 'none' : 'block';
@@ -132,8 +137,8 @@
       const params = new URLSearchParams(window.location.search);
       const make = params.get('make')?.toLowerCase();
       const model = params.get('model')?.toLowerCase();
-      const partsList = JSON.parse(localStorage.getItem('partsList') || '[]');
-      const container = document.getElementById('parts-container');
+      const partsList = JSON.parse(localStorage.getItem("partsList") || "[]");
+      const container = document.getElementById("parts-container");
       container.innerHTML = "";
 
       const grouped = {};
@@ -174,11 +179,10 @@
           grouped[category][sub].forEach(part => {
             const partCard = document.createElement("div");
             partCard.className = "part-card";
-            partCard.innerHTML = (part.image ? `<img src="${part.image}" alt="Part Image" style="width:100%;max-height:120px;object-fit:contain;margin-bottom:8px;border-radius:4px;" />` : "") + `
-              <div class="part-name">${part.name}</div>
+            partCard.innerHTML = (part.image ? `<img src="${part.image}" alt="Part Image" style="width:100%;max-height:120px;object-fit:contain;margin-bottom:8px;border-radius:4px;" />` : "") +
+              `<div class="part-name">${part.name}</div>
               <div class="part-details">Part #: ${part.number}</div>
-              <div class="part-details">Years: ${part.years}</div>
-            `;
+              <div class="part-details">Years: ${part.years}</div>`;
             subGroup.appendChild(partCard);
           });
 

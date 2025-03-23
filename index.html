@@ -2,74 +2,111 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Toyota Liffey Valley Parts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home - Toyota Parts Store</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background: black;
+      text-align: center;
+    }
+    .banner-img {
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+      object-fit: cover;
+    }
+    .main {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .card {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+    .card input {
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      border: none;
+    }
+    .card button {
+      padding: 10px 20px;
+      margin: 5px;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      color: #888;
+      border-top: 1px solid #333;
+      margin-top: 30px;
+    }
+  </style>
 </head>
-<body onload="loadBanner(); loadWelcomeMessage(); loadHeaderTitle();">
+<body>
   <header class="header">
-    <img id="banner-image" src="banner.jpg" alt="Toyota GR Banner" class="banner-img" />
-    <div class="header-text">
-      <h1 id="header-title">Welcome to Toyota Liffey Valley Parts Store</h1>
-      <p id="welcome-message">
-        Book and order genuine Toyota parts online. Enter your registration to see parts tailored to your vehicle. Click & Collect available.
-      </p>
-    </div>
+    <img id="banner-image" src="banner.jpg" alt="Banner Image" class="banner-img" />
   </header>
 
   <main class="main">
-    <div class="card input-card">
-      <label for="reg-input">Enter Your Vehicle Registration:</label>
-      <input type="text" id="reg-input" placeholder="e.g. 151D12345" />
-      <button onclick="checkReg()">Continue</button>
+    <div class="card">
+      <h2>Welcome to Toyota Liffey Valley Parts Store</h2>
+      <p>Enter your vehicle registration to view compatible parts and accessories.</p>
+      <input id="reg-input" type="text" placeholder="e.g. 151D12345" />
+      <button onclick="redirectToPage('parts.html')">View Parts</button>
+      <button onclick="redirectToPage('accessories.html')">View Accessories</button>
     </div>
-  <div class="card"><a href="accessories.html" style="color: red; text-decoration: underline;">View Accessories</a></div>
-</main>
+  </main>
 
   <footer class="footer">
-    <p>&copy; 2025 Toyota Liffey Valley. All rights reserved.</p>
+    &copy; 2025 Toyota Liffey Valley. All rights reserved.
   </footer>
 
   <script>
-    const regDatabase = {
-      "152D12345": { make: "Toyota", model: "Admin Access" },
-      "151D12345": { make: "Toyota", model: "Yaris" },
-      "161C45678": { make: "Toyota", model: "Corolla" },
-      "171G78901": { make: "Toyota", model: "RAV4" }
-    };
+    function redirectToPage(page) {
+      const reg = document.getElementById('reg-input')?.value?.toUpperCase();
+      let make = '';
+      let model = '';
 
-    function loadBanner() {
-      const stored = localStorage.getItem('bannerImage');
-      if (stored) document.getElementById('banner-image').src = stored;
-    }
-
-    function loadWelcomeMessage() {
-      const message = localStorage.getItem('welcomeMessage');
-      if (message) document.getElementById('welcome-message').textContent = message;
-    }
-
-    function loadHeaderTitle() {
-      const header = localStorage.getItem('headerTitle');
-      if (header) document.getElementById('header-title').textContent = header;
-    }
-
-    function checkReg() {
-      const reg = document.getElementById('reg-input').value.trim().toUpperCase();
-      const info = regDatabase[reg];
-      if (info) {
-        if (reg === "152D12345") {
-          window.location.href = "admin.html";
-        } else {
-          const url = new URL("parts.html", window.location.href);
-          url.searchParams.set("make", info.make);
-          url.searchParams.set("model", info.model);
-          url.searchParams.set("reg", reg);
-          window.location.href = url.toString();
-        }
+      if (reg === "151D12345") {
+        make = "Toyota";
+        model = "Yaris";
+      } else if (reg === "161D54321") {
+        make = "Toyota";
+        model = "Corolla";
+      } else if (reg === "171D67890") {
+        make = "Toyota";
+        model = "Rav4";
+      } else if (reg === "152D12345") {
+        // Admin login if needed
+        window.location.href = "admin.html";
+        return;
       } else {
-        alert("Registration not recognized.");
+        alert("Unknown registration number. Please use a demo reg.");
+        return;
       }
+
+      window.location.href = `${page}?reg=${reg}&make=${make}&model=${model}`;
     }
   </script>
 </body>

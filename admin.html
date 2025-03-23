@@ -3,116 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel - Toyota Parts Store</title>
+  <title>Admin - Toyota Store</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     .section-header {
       background-color: #222;
-      color: white;
-      padding: 12px 16px;
-      font-weight: 600;
-      border: 1px solid #333;
-      margin-bottom: 0;
+      padding: 12px;
+      font-weight: bold;
+      margin-top: 10px;
       cursor: pointer;
-      border-radius: 5px 5px 0 0;
+      color: white;
+      border-radius: 6px;
     }
-
     .collapsible {
       display: none;
-      padding: 16px;
-      background: #1b1b1b;
-      border: 1px solid #333;
-      border-top: none;
+      padding: 15px;
+      background: #1a1a1a;
       margin-bottom: 20px;
-      border-radius: 0 0 5px 5px;
+      border-radius: 6px;
     }
-
-    .parts-table {
-      width: 100%;
-      color: white;
-      font-size: 14px;
-      border-collapse: collapse;
-    }
-
-    .parts-table th, .parts-table td {
-      border: 1px solid #444;
-      padding: 8px;
-      text-align: left;
-    }
-
-    .parts-table td input {
-      width: 100%;
-      background: #222;
-      color: white;
-      border: 1px solid #444;
-      border-radius: 4px;
-      padding: 4px;
-    }
-
-    .action-btn {
-      padding: 6px 12px;
-      font-size: 12px;
-      margin: 0 4px;
-    }
-
     .scroll-box {
       max-height: 300px;
       overflow-y: auto;
-      border: 1px solid #333;
-      border-radius: 6px;
-      margin-top: 10px;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 4px;
     }
   </style>
 </head>
-<body onload="loadPage()">
+<body onload="renderAccessoriesList(); renderPartsList(); loadBanner();">
   <header class="header">
     <img id="banner-image" src="banner.jpg" alt="Banner Image" class="banner-img" />
-    <div class="header-text">
-      <h1 class="page-title">Admin Panel</h1>
-    </div>
   </header>
 
-  <main class="main" style="flex-direction: column;">
+  <main class="main" style="max-width: 900px; margin: auto;">
     <div class="card">
-      <div class="section-header" onclick="toggleSection('banner-section')">Banner & Welcome Settings</div>
-      <div class="collapsible" id="banner-section">
-        <label>Banner Image:</label><br />
-        <input type="file" id="banner-upload" accept="image/*" />
-        <button onclick="saveBanner()">Update Banner</button><br /><br />
-        <label>Page Title:</label>
-        <input type="text" id="header-title-input" placeholder="Page Title..." />
-        <button onclick="saveHeaderTitle()">Save Title</button><br /><br />
-        <label>Welcome Message:</label>
-        <textarea id="welcome-input" rows="3" placeholder="Edit welcome message..."></textarea>
-        <button onclick="saveWelcomeMessage()">Save Welcome</button>
-      </div>
+      <h2>Admin Panel</h2>
 
-      <div class="section-header" onclick="toggleSection('parts-section')">Parts Page Content</div>
-      <div class="collapsible" id="parts-section">
-        <label>Parts Page Title:</label>
-        <input type="text" id="parts-title-input" placeholder="Parts Page Title..." />
-        <button onclick="savePartsTitle()">Save Parts Title</button><br /><br />
-        <label>Parts Page Intro:</label>
-        <textarea id="parts-intro-input" rows="3" placeholder="Edit parts intro..."></textarea>
-        <button onclick="savePartsIntro()">Save Intro</button>
+      <div class="section-header" onclick="toggleSection('banner-section')">Banner</div>
+      <div class="collapsible" id="banner-section">
+        <label>Upload Banner Image</label>
+        <input type="file" id="banner-upload" accept="image/*" />
+        <button onclick="updateBanner()">Update Banner</button>
       </div>
 
       <div class="section-header" onclick="toggleSection('add-part-section')">Add New Part</div>
       <div class="collapsible" id="add-part-section">
-        <input type="text" id="part-category" placeholder="Category (e.g. Filters)" />
-        <input type="text" id="part-subcategory" placeholder="Subcategory (e.g. Oil Filter)" />
+        <input type="text" id="part-category" placeholder="Category" />
+        <input type="text" id="part-subcategory" placeholder="Subcategory" />
         <input type="text" id="part-name" placeholder="Part Name" />
         <input type="text" id="part-number" placeholder="Part Number" />
         <input type="text" id="part-make" placeholder="Make" />
         <input type="text" id="part-model" placeholder="Model" />
         <input type="text" id="part-years" placeholder="Year Range" />
-<label>Part Image:</label>
-<input type="file" id="part-image" accept="image/*" />
+        <label>Part Image:</label>
+        <input type="file" id="part-image" accept="image/*" />
         <button onclick="addPart()">Add Part</button>
       </div>
 
@@ -120,12 +62,11 @@
       <div class="collapsible" id="manage-parts-section">
         <div class="scroll-box" id="parts-list"></div>
       </div>
-    </div>
-  
+
       <div class="section-header" onclick="toggleSection('add-accessory-section')">Add New Accessory</div>
       <div class="collapsible" id="add-accessory-section">
-        <input type="text" id="accessory-category" placeholder="Category (e.g. Mats)" />
-        <input type="text" id="accessory-subcategory" placeholder="Subcategory (e.g. Front Mats)" />
+        <input type="text" id="accessory-category" placeholder="Category" />
+        <input type="text" id="accessory-subcategory" placeholder="Subcategory" />
         <input type="text" id="accessory-name" placeholder="Accessory Name" />
         <input type="text" id="accessory-number" placeholder="Accessory Number" />
         <input type="text" id="accessory-make" placeholder="Make" />
@@ -140,12 +81,8 @@
       <div class="collapsible" id="manage-accessories-section">
         <div class="scroll-box" id="accessories-list"></div>
       </div>
-
-</main>
-
-  <footer class="footer">
-    <p>&copy; 2025 Toyota Liffey Valley. Admin Panel</p>
-  </footer>
+    </div>
+  </main>
 
   <script>
     function toggleSection(id) {
@@ -153,127 +90,26 @@
       section.style.display = section.style.display === 'block' ? 'none' : 'block';
     }
 
-    function loadPage() {
-      loadBanner();
-      loadWelcomeMessage();
-      const storedTitle = localStorage.getItem('headerTitle');
-      if (storedTitle) document.getElementById('header-title-input').value = storedTitle;
-      const partsTitle = localStorage.getItem('partsTitle');
-      if (partsTitle) document.getElementById('parts-title-input').value = partsTitle;
-      const partsIntro = localStorage.getItem('partsIntro');
-      if (partsIntro) document.getElementById('parts-intro-input').value = partsIntro;
-      renderPartsList();
-    }
-
-    function saveBanner() {
-      const input = document.getElementById('banner-upload');
-      if (!input || !input.files[0]) return;
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const dataUrl = e.target.result;
-        localStorage.setItem('bannerImage', dataUrl);
-        document.getElementById('banner-image').src = dataUrl;
-        alert("Banner updated successfully!");
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-
-    function saveWelcomeMessage() {
-      const message = document.getElementById('welcome-input').value;
-      localStorage.setItem('welcomeMessage', message);
-      alert("Welcome message updated!");
-    }
-
-    function saveHeaderTitle() {
-      const title = document.getElementById('header-title-input').value;
-      localStorage.setItem('headerTitle', title);
-      alert("Title updated!");
-    }
-
-    function savePartsTitle() {
-      const title = document.getElementById('parts-title-input').value;
-      localStorage.setItem('partsTitle', title);
-      alert("Parts title updated!");
-    }
-
-    function savePartsIntro() {
-      const intro = document.getElementById('parts-intro-input').value;
-      localStorage.setItem('partsIntro', intro);
-      alert("Intro updated!");
-    }
-
-    function addPart() {
-      const part = {
-        category: document.getElementById('part-category').value,
-        subcategory: document.getElementById('part-subcategory').value,
-        name: document.getElementById('part-name').value,
-        number: document.getElementById('part-number').value,
-        make: document.getElementById('part-make').value.toLowerCase(),
-        model: document.getElementById('part-model').value.toLowerCase(),
-        years: document.getElementById('part-years').value
-      };
-
-      const existing = JSON.parse(localStorage.getItem('partsList') || '[]');
-      existing.push(part);
-      localStorage.setItem('partsList', JSON.stringify(existing));
-      renderPartsList();
-      alert('Part added successfully!');
-    }
-
-    function deletePart(index) {
-      const parts = JSON.parse(localStorage.getItem('partsList') || '[]');
-      parts.splice(index, 1);
-      localStorage.setItem('partsList', JSON.stringify(parts));
-      renderPartsList();
-    }
-
-    function renderPartsList() {
-      const parts = JSON.parse(localStorage.getItem('partsList') || '[]');
-      const container = document.getElementById('parts-list');
-      container.innerHTML = "";
-      if (parts.length === 0) {
-        container.innerHTML = "<p style='color:#999;'>No parts added yet.</p>";
-        return;
+    function updateBanner() {
+      const input = document.getElementById("banner-upload");
+      if (input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          localStorage.setItem("bannerImage", e.target.result);
+          document.getElementById("banner-image").src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
       }
-
-      const table = document.createElement('table');
-      table.className = 'parts-table';
-      table.innerHTML = "<thead><tr><th>Category</th><th>Name</th><th>Model</th><th>Years</th><th>Action</th></tr></thead>";
-
-      const tbody = document.createElement('tbody');
-      parts.forEach((part, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${part.category}</td>
-          <td>${part.name}</td>
-          <td>${part.model}</td>
-          <td>${part.years}</td>
-          <td class="btn-group">
-            <button class="action-btn" onclick="deletePart(${index})">Delete</button>
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
-
-      table.appendChild(tbody);
-      container.appendChild(table);
-    }
-  
-    function toggleSection(id) {
-      const section = document.getElementById(id);
-      section.style.display = section.style.display === 'block' ? 'none' : 'block';
     }
 
-
-    function toggleSection(id) {
-      const section = document.getElementById(id);
-      section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    function loadBanner() {
+      const stored = localStorage.getItem("bannerImage");
+      if (stored) document.getElementById("banner-image").src = stored;
     }
-
 
     function addPart() {
-      const imageInput = document.getElementById("part-image");
       const reader = new FileReader();
+      const imageInput = document.getElementById("part-image");
       const part = {
         category: document.getElementById("part-category").value,
         subcategory: document.getElementById("part-subcategory").value,
@@ -284,9 +120,8 @@
         years: document.getElementById("part-years").value,
         image: ""
       };
-
       if (imageInput.files[0]) {
-        reader.onload = function (e) {
+        reader.onload = function(e) {
           part.image = e.target.result;
           savePart(part);
         };
@@ -304,10 +139,28 @@
       alert("Part added successfully!");
     }
 
+    function deletePart(index) {
+      const list = JSON.parse(localStorage.getItem("partsList") || "[]");
+      list.splice(index, 1);
+      localStorage.setItem("partsList", JSON.stringify(list));
+      renderPartsList();
+    }
+
+    function renderPartsList() {
+      const list = JSON.parse(localStorage.getItem("partsList") || "[]");
+      const container = document.getElementById("parts-list");
+      container.innerHTML = "";
+      list.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.innerHTML = `<strong>${item.name}</strong> (${item.model}) - ${item.years} 
+          <button onclick="deletePart(${index})">Delete</button>`;
+        container.appendChild(div);
+      });
+    }
 
     function addAccessory() {
-      const imageInput = document.getElementById("accessory-image");
       const reader = new FileReader();
+      const imageInput = document.getElementById("accessory-image");
       const accessory = {
         category: document.getElementById("accessory-category").value,
         subcategory: document.getElementById("accessory-subcategory").value,
@@ -318,9 +171,8 @@
         years: document.getElementById("accessory-years").value,
         image: ""
       };
-
       if (imageInput.files[0]) {
-        reader.onload = function (e) {
+        reader.onload = function(e) {
           accessory.image = e.target.result;
           saveAccessory(accessory);
         };
@@ -339,44 +191,23 @@
     }
 
     function deleteAccessory(index) {
-      const accessories = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
-      accessories.splice(index, 1);
-      localStorage.setItem("accessoriesList", JSON.stringify(accessories));
+      const list = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
+      list.splice(index, 1);
+      localStorage.setItem("accessoriesList", JSON.stringify(list));
       renderAccessoriesList();
     }
 
     function renderAccessoriesList() {
-      const accessories = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
+      const list = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
       const container = document.getElementById("accessories-list");
       container.innerHTML = "";
-      if (accessories.length === 0) {
-        container.innerHTML = "<p style='color:#999;'>No accessories added yet.</p>";
-        return;
-      }
-
-      const table = document.createElement('table');
-      table.className = 'parts-table';
-      table.innerHTML = "<thead><tr><th>Category</th><th>Name</th><th>Model</th><th>Years</th><th>Action</th></tr></thead>";
-
-      const tbody = document.createElement('tbody');
-      accessories.forEach((item, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${item.category}</td>
-          <td>${item.name}</td>
-          <td>${item.model}</td>
-          <td>${item.years}</td>
-          <td class="btn-group">
-            <button class="action-btn" onclick="deleteAccessory(${index})">Delete</button>
-          </td>
-        `;
-        tbody.appendChild(row);
+      list.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.innerHTML = `<strong>${item.name}</strong> (${item.model}) - ${item.years} 
+          <button onclick="deleteAccessory(${index})">Delete</button>`;
+        container.appendChild(div);
       });
-
-      table.appendChild(tbody);
-      container.appendChild(table);
     }
-
-</script>
+  </script>
 </body>
 </html>
