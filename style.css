@@ -43,9 +43,11 @@ body {
 
 .main {
   flex: 1;
+  width: 100%;
   display: flex;
   justify-content: center;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .card {
@@ -65,7 +67,6 @@ body {
 }
 
 .card input {
-  box-sizing: border-box;
   width: 100%;
   padding: 12px;
   border: 1px solid #444;
