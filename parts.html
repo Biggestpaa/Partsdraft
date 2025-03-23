@@ -6,40 +6,79 @@
   <title>Parts - Toyota Parts Store</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .category-group {
-      margin-bottom: 20px;
-    }
-    .category-title {
-      font-size: 16px;
-      color: #d71920;
-      margin-bottom: 8px;
-    }
-    .subcategory-title {
+    .vehicle-banner {
+      background-color: #1c1c1c;
+      padding: 12px 20px;
       font-size: 14px;
       color: #fff;
-      margin-left: 10px;
-      margin-top: 10px;
+      text-align: center;
+      border-bottom: 1px solid #333;
     }
-    .part-item {
-      margin-left: 20px;
+
+    .category-toggle {
+      background-color: #222;
+      color: #fff;
+      padding: 10px 16px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+
+    .category-toggle:hover {
+      background-color: #2a2a2a;
+    }
+
+    .subcategory-group {
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .subcategory-title {
+      font-size: 14px;
+      color: #f0f0f0;
+      margin: 10px 0 6px 0;
+    }
+
+    .part-card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      color: white;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    .part-name {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .part-details {
       font-size: 13px;
       color: #ccc;
-      padding: 2px 0;
+      margin-top: 4px;
+    }
+
+    .category-content {
+      display: none;
+      margin-top: 6px;
     }
   </style>
 </head>
 <body onload="loadPage()">
   <header class="header">
     <img id="banner-image" src="banner.jpg" alt="Toyota Banner" class="banner-img" />
-    <div class="header-text">
-      <h1 id="parts-title">Available Parts</h1>
-      <p id="vehicle-info" class="sub-banner">Vehicle: Unknown</p>
-      <p id="parts-intro">Please select a category below to find parts for your Toyota.</p>
-    </div>
   </header>
 
-  <main class="main">
+  <div class="vehicle-banner" id="vehicle-info">Vehicle: Unknown</div>
+
+  <main class="main" style="flex-direction: column;">
     <div class="card">
+      <h2 id="parts-title">Available Parts</h2>
+      <p id="parts-intro">Select a category below to view compatible parts.</p>
       <div id="parts-container"></div>
     </div>
   </main>
@@ -83,11 +122,15 @@
       if (intro) document.getElementById('parts-intro').textContent = intro;
     }
 
+    function toggleCategoryContent(id) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+
     function loadPartsForVehicle() {
       const params = new URLSearchParams(window.location.search);
       const make = params.get('make')?.toLowerCase();
       const model = params.get('model')?.toLowerCase();
-
       const partsList = JSON.parse(localStorage.getItem('partsList') || '[]');
       const container = document.getElementById('parts-container');
       container.innerHTML = "";
@@ -107,30 +150,43 @@
         return;
       }
 
+      let count = 0;
       for (let category in grouped) {
-        const catDiv = document.createElement("div");
-        catDiv.className = "category-group";
+        const toggle = document.createElement("div");
+        toggle.className = "category-toggle";
+        toggle.textContent = category;
+        toggle.setAttribute("onclick", `toggleCategoryContent('cat${count}')`);
 
-        const catTitle = document.createElement("div");
-        catTitle.className = "category-title";
-        catTitle.textContent = category;
-        catDiv.appendChild(catTitle);
+        const catContent = document.createElement("div");
+        catContent.className = "category-content";
+        catContent.id = `cat${count}`;
 
         for (let sub in grouped[category]) {
+          const subGroup = document.createElement("div");
+          subGroup.className = "subcategory-group";
+
           const subTitle = document.createElement("div");
           subTitle.className = "subcategory-title";
           subTitle.textContent = sub;
-          catDiv.appendChild(subTitle);
+          subGroup.appendChild(subTitle);
 
           grouped[category][sub].forEach(part => {
-            const item = document.createElement("div");
-            item.className = "part-item";
-            item.textContent = `${part.name} (${part.number}) - Years: ${part.years}`;
-            catDiv.appendChild(item);
+            const partCard = document.createElement("div");
+            partCard.className = "part-card";
+            partCard.innerHTML = `
+              <div class="part-name">${part.name}</div>
+              <div class="part-details">Part #: ${part.number}</div>
+              <div class="part-details">Years: ${part.years}</div>
+            `;
+            subGroup.appendChild(partCard);
           });
+
+          catContent.appendChild(subGroup);
         }
 
-        container.appendChild(catDiv);
+        container.appendChild(toggle);
+        container.appendChild(catContent);
+        count++;
       }
     }
   </script>
