@@ -1,155 +1,57 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Accessories - Toyota Store</title>
+  <title>Accessories</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .vehicle-banner {
-      background-color: #1c1c1c;
-      padding: 12px 20px;
-      font-size: 14px;
-      color: #fff;
-      text-align: center;
-      border-bottom: 1px solid #333;
-    }
-
-    .category-toggle {
-      background-color: #222;
-      color: #fff;
-      padding: 10px 16px;
-      margin-top: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 6px;
-      transition: background 0.2s ease;
-    }
-
-    .category-toggle:hover {
-      background-color: #2a2a2a;
-    }
-
-    .subcategory-group {
-      padding-left: 20px;
-      margin-bottom: 20px;
-    }
-
-    .subcategory-title {
-      font-size: 14px;
-      color: #f0f0f0;
-      margin: 10px 0 6px 0;
-    }
-
-    .part-card {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 10px;
-      color: white;
-      box-shadow: 0 0 6px rgba(0,0,0,0.3);
-    }
-
-    .part-name {
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .part-details {
-      font-size: 13px;
-      color: #ccc;
-      margin-top: 4px;
-    }
-
-    .category-content {
-      display: none;
-      margin-top: 6px;
-    }
-  </style>
 </head>
-<body onload="loadPage()">
-  <header class="header">
-    <img id="banner-image" src="banner.jpg" alt="Toyota Banner" class="banner-img" />
+<body>
+  <header>
+    <img id="banner" class="banner" src="banner.jpg" alt="Banner" />
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="accessories.html">Accessories</a>
+      <a href="accessories.html" id="accessories-link">Accessories</a>
+    </nav>
   </header>
-<nav class="nav">
-  <a href="index.html">Home</a>
-  <a href="#" id="parts-link">Parts</a>
-  <a href="#" class="active">Accessories</a>
-</nav>
 
-
-
-
-
-  <div class="vehicle-banner" id="vehicle-info">Vehicle: Unknown</div>
-
-  <main class="main" style="flex-direction: column;">
-    <div class="card">
-      <h2 id="accessories-title">Available Accessories</h2>
-      <p id="accessories-intro">Select a category below to view compatible accessories.</p>
-      <div id="accessories-container"></div>
-    </div>
+  <main class="main">
+    <h2 id="accessories-heading">Accessories</h2>
+    <h4 id="accessories-subheading">All available accessories</h4>
+    <div id="itemsContainer" class="item-list"></div>
   </main>
 
-  <footer class="footer">
-    <p>&copy; 2025 Toyota Liffey Valley. All rights reserved.</p>
-  </footer>
+  <script>
+    function loadPage() {
+      const params = new URLSearchParams(window.location.search);
+      const make = (params.get("make") || "").toLowerCase();
+      const model = (params.get("model") || "").toLowerCase();
 
-  
+      const banner = localStorage.getItem("bannerImage");
+      if (banner) {
+        document.getElementById("banner").src = banner;
+      }
 
+      const accessories = JSON.parse(localStorage.getItem("accessories") || "[]");
+      const container = document.getElementById("itemsContainer");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-  function loadPage() {
-    // Load banner
-    const banner = localStorage.getItem("bannerImage");
-    if (banner) {
-      const bannerImg = document.getElementById("banner");
-      if (bannerImg) bannerImg.src = banner;
+      container.innerHTML = accessories.map(part => {
+        const match = (!make && !model) ||
+                      (part.make?.toLowerCase() === make && part.model?.toLowerCase() === model);
+        if (match) {
+          return `<div class="item" data-name="\${part.name}" data-number="\${part.partNumber}" data-make="\${part.make}" data-model="\${part.model}">
+                    <strong>\${part.name}</strong> - \${part.partNumber} (\${part.make} \${part.model}) - €\${part.price}
+                  </div>`;
+        }
+        return "";
+      }).join("");
     }
 
-    const params = new URLSearchParams(window.location.search);
-    const make = (params.get("make") || "").toLowerCase();
-    const model = (params.get("model") || "").toLowerCase();
-
-    const data = JSON.parse(localStorage.getItem("accessories") || "[]");
-    const container = document.getElementById("itemsContainer");
-
-    container.innerHTML = data.map((item) => {
-      const matches = (!make && !model) ||
-                      (item.make?.toLowerCase() === make && item.model?.toLowerCase() === model);
-
-      if (matches) {
-        return `<div class="item" data-name="\${item.name}" data-number="\${item.partNumber}" data-make="\${item.make}" data-model="\${item.model}">
-                  <strong>\${item.name}</strong> - \${item.partNumber} (\${item.make} \${item.model}) - €\${item.price}
-                </div>`;
-      }
-      return "";
-    }).join("");
-  }
-
-  window.onload = function () {
-    loadPage();
-    updatePartsLink?.();
-  };
-</script>
-
+    window.onload = function () {
+      loadPage();
+    };
+  </script>
 </body>
 </html>
