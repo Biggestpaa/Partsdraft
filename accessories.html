@@ -70,6 +70,10 @@
 </head>
 <body onload="loadPage()">
   <header class="header">
+<nav class="nav">
+<a href="index.html">Home</a>
+<a id="parts-link" href="#">Parts</a>
+</nav>
     <img id="banner-image" src="banner.jpg" alt="Toyota Banner" class="banner-img" />
   </header>
 
@@ -177,5 +181,24 @@
       }
     }
   </script>
+
+<script>
+  function updatePartsLink() {
+    const params = new URLSearchParams(window.location.search);
+    const reg = params.get("reg") || "";
+    const make = params.get("make") || "";
+    const model = params.get("model") || "";
+    const link = document.getElementById("parts-link");
+    if (link) {
+      link.href = `parts.html?reg=${reg}&make=${make}&model=${model}`;
+    }
+  }
+
+  window.onload = function () {
+    loadPage();
+    updatePartsLink();
+  };
+</script>
+
 </body>
 </html>
