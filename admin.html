@@ -1,1 +1,141 @@
-<!DOCTYPE html><html><head><title>Admin</title><link rel='stylesheet' href='style.css'></head><body><p>Admin Page</p></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - Toyota Parts Store</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body onload="loadBanner(); loadWelcomeMessage();">
+  <header class="header">
+    <img id="banner-image" src="banner.jpg" alt="Banner Image" class="banner-img" />
+    <div class="header-text">
+      <h1 class="page-title">Admin Panel</h1>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="card">
+      <h2>Update Banner Image</h2>
+      <input type="file" id="banner-upload" accept="image/*">
+      <button onclick="saveBanner()">Update Banner</button>
+    </div>
+
+    <div class="card">
+      <h2>Edit Page Title</h2>
+      <input type="text" id="header-title-input" placeholder="Page Title...">
+      <button onclick="saveHeaderTitle()">Save Title</button>
+      <button onclick="resetHeaderTitle()">Reset Title</button>
+    </div>
+
+    <div class="card">
+      <h2>Edit Welcome Message</h2>
+      <textarea id="welcome-input" rows="3" placeholder="Edit welcome message..."></textarea>
+      <button onclick="saveWelcomeMessage()">Save Message</button>
+      <button onclick="resetWelcomeMessage()">Reset to Default</button>
+    </div>
+
+    <div class="card">
+      <h2>Edit Parts Page Title</h2>
+      <input type="text" id="parts-title-input" placeholder="Parts Page Title...">
+      <button onclick="savePartsTitle()">Save Parts Title</button>
+      <button onclick="resetPartsTitle()">Reset Parts Title</button>
+    </div>
+
+    <div class="card">
+      <h2>Edit Parts Page Intro</h2>
+      <textarea id="parts-intro-input" rows="3" placeholder="Edit parts intro..."></textarea>
+      <button onclick="savePartsIntro()">Save Parts Intro</button>
+      <button onclick="resetPartsIntro()">Reset Parts Intro</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Toyota Liffey Valley. Admin Panel</p>
+  </footer>
+
+  <script>
+    function loadBanner() {
+      const stored = localStorage.getItem('bannerImage');
+      if (stored) document.getElementById('banner-image').src = stored;
+    }
+
+    function saveBanner() {
+      const input = document.getElementById('banner-upload');
+      if (!input || !input.files[0]) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const dataUrl = e.target.result;
+        localStorage.setItem('bannerImage', dataUrl);
+        document.getElementById('banner-image').src = dataUrl;
+        alert("Banner updated successfully!");
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+
+    function saveWelcomeMessage() {
+      const message = document.getElementById('welcome-input').value;
+      localStorage.setItem('welcomeMessage', message);
+      alert("Welcome message updated!");
+    }
+
+    function loadWelcomeMessage() {
+      const stored = localStorage.getItem('welcomeMessage');
+      if (stored) document.getElementById('welcome-input').value = stored;
+    }
+
+    function resetWelcomeMessage() {
+      localStorage.removeItem('welcomeMessage');
+      document.getElementById('welcome-input').value = '';
+      alert("Welcome message reset to default.");
+    }
+
+    function saveHeaderTitle() {
+      const title = document.getElementById('header-title-input').value;
+      localStorage.setItem('headerTitle', title);
+      alert("Page title updated!");
+    }
+
+    function resetHeaderTitle() {
+      localStorage.removeItem('headerTitle');
+      document.getElementById('header-title-input').value = '';
+      alert("Page title reset.");
+    }
+
+    function savePartsTitle() {
+      const title = document.getElementById('parts-title-input').value;
+      localStorage.setItem('partsTitle', title);
+      alert("Parts page title updated!");
+    }
+
+    function resetPartsTitle() {
+      localStorage.removeItem('partsTitle');
+      document.getElementById('parts-title-input').value = '';
+      alert("Parts page title reset.");
+    }
+
+    function savePartsIntro() {
+      const intro = document.getElementById('parts-intro-input').value;
+      localStorage.setItem('partsIntro', intro);
+      alert("Parts intro updated!");
+    }
+
+    function resetPartsIntro() {
+      localStorage.removeItem('partsIntro');
+      document.getElementById('parts-intro-input').value = '';
+      alert("Parts intro reset.");
+    }
+
+    window.onload = function() {
+      loadBanner();
+      loadWelcomeMessage();
+      const storedTitle = localStorage.getItem('headerTitle');
+      if (storedTitle) document.getElementById('header-title-input').value = storedTitle;
+      const partsTitle = localStorage.getItem('partsTitle');
+      if (partsTitle) document.getElementById('parts-title-input').value = partsTitle;
+      const partsIntro = localStorage.getItem('partsIntro');
+      if (partsIntro) document.getElementById('parts-intro-input').value = partsIntro;
+    };
+  </script>
+</body>
+</html>
