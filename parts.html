@@ -88,7 +88,7 @@
 
   <nav class="nav">
     <a href="index.html">Home</a>
-    <a href="accessories.html">Accessories</a>
+    <a href="accessories.html" id="accessories-link">Accessories</a>
   </nav>
 
   <div class="vehicle-banner" id="vehicle-info">Vehicle: Unknown</div>
@@ -195,5 +195,24 @@
       }
     }
   </script>
+
+<script>
+  function updateAccessoriesLink() {
+    const params = new URLSearchParams(window.location.search);
+    const reg = params.get("reg") || "";
+    const make = params.get("make") || "";
+    const model = params.get("model") || "";
+    const link = document.getElementById("accessories-link");
+    if (link) {
+      link.href = `accessories.html?reg=${reg}&make=${make}&model=${model}`;
+    }
+  }
+
+  window.onload = function () {
+    loadPage();
+    updateAccessoriesLink();
+  };
+</script>
+
 </body>
 </html>
