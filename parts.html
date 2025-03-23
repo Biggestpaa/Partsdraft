@@ -2,56 +2,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Parts</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .collapsible {
+      background-color: #111;
+      color: white;
+      cursor: pointer;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      font-size: 18px;
+      outline: none;
+      margin-top: 10px;
+    }
+    .active, .collapsible:hover {
+      background-color: #333;
+    }
+    .content {
+      padding: 0 15px;
+      display: none;
+      overflow: hidden;
+      background-color: #f9f9f9;
+    }
+    .sub-collapsible {
+      background-color: #ccc;
+      color: #000;
+      cursor: pointer;
+      padding: 8px;
+      width: 95%;
+      border: none;
+      text-align: left;
+      font-size: 16px;
+      margin: 5px auto;
+      outline: none;
+    }
+    .sub-content {
+      padding-left: 20px;
+      display: none;
+      overflow: hidden;
+      background-color: #eee;
+    }
+    .item {
+      margin: 5px 0;
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+  </style>
 </head>
-<body>
+<body onload="loadParts()">
   <header>
     <img id="banner" class="banner" src="banner.jpg" alt="Banner" />
     <nav class="nav">
       <a href="index.html">Home</a>
       <a href="parts.html">Parts</a>
-      <a href="accessories.html" id="accessories-link">Accessories</a>
+      <a href="accessories.html">Accessories</a>
     </nav>
   </header>
 
   <main class="main">
     <h2 id="parts-heading">Parts</h2>
-    <h4 id="parts-subheading">All available parts</h4>
-    <div id="itemsContainer" class="item-list"></div>
+    <h4 id="parts-subheading">Browse our available parts below.</h4>
+    <div id="partsContainer"></div>
   </main>
 
   <script>
-    function loadPage() {
-      const params = new URLSearchParams(window.location.search);
-      const make = (params.get("make") || "").toLowerCase();
-      const model = (params.get("model") || "").toLowerCase();
-
-      const banner = localStorage.getItem("bannerImage");
-      if (banner) {
-        document.getElementById("banner").src = banner;
-      }
-
-      const parts = JSON.parse(localStorage.getItem("parts") || "[]");
-      const container = document.getElementById("itemsContainer");
-
-      container.innerHTML = parts.map(part => {
-        const match = (!make && !model) ||
-                      (part.make?.toLowerCase() === make && part.model?.toLowerCase() === model);
-        if (match) {
-          return `<div class="item" data-name="\${part.name}" data-number="\${part.partNumber}" data-make="\${part.make}" data-model="\${part.model}">
-                    <strong>\${part.name}</strong> - \${part.partNumber} (\${part.make} \${part.model}) - €\${part.price}
-                  </div>`;
-        }
-        return "";
-      }).join("");
+    function createToggle(title, className) {
+      const btn = document.createElement('button');
+      btn.className = className;
+      btn.textContent = title;
+      btn.addEventListener('click', function () {
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+      });
+      return btn;
     }
 
-    window.onload = function () {
-      loadPage();
-    };
+    function loadParts() {
+      const banner = localStorage.getItem("bannerImage");
+      if (banner) document.getElementById("banner").src = banner;
+
+      const container = document.getElementById("partsContainer");
+      const parts = JSON.parse(localStorage.getItem("parts") || "[]");
+
+      const grouped = {};
+      parts.forEach(part => {
+        const cat = part.category || "Uncategorized";
+        const sub = part.subcategory || "General";
+        if (!grouped[cat]) grouped[cat] = {};
+        if (!grouped[cat][sub]) grouped[cat][sub] = [];
+        grouped[cat][sub].push(part);
+      });
+
+      for (const category in grouped) {
+        const catBtn = createToggle(category, 'collapsible');
+        const catContent = document.createElement('div');
+        catContent.className = 'content';
+
+        for (const sub in grouped[category]) {
+          const subBtn = createToggle(sub, 'sub-collapsible');
+          const subContent = document.createElement('div');
+          subContent.className = 'sub-content';
+
+          grouped[category][sub].forEach(part => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.textContent = `${part.name} - ${part.partNumber} (${part.make} ${part.model}) - €${part.price}`;
+            subContent.appendChild(div);
+          });
+
+          catContent.appendChild(subBtn);
+          catContent.appendChild(subContent);
+        }
+
+        container.appendChild(catBtn);
+        container.appendChild(catContent);
+      }
+    }
   </script>
 </body>
 </html>
