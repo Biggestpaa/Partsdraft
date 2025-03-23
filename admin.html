@@ -111,6 +111,8 @@
         <input type="text" id="part-make" placeholder="Make" />
         <input type="text" id="part-model" placeholder="Model" />
         <input type="text" id="part-years" placeholder="Year Range" />
+<label>Part Image:</label>
+<input type="file" id="part-image" accept="image/*" />
         <button onclick="addPart()">Add Part</button>
       </div>
 
@@ -240,6 +242,46 @@
     function toggleSection(id) {
       const section = document.getElementById(id);
       section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+
+
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+
+
+    function addPart() {
+      const imageInput = document.getElementById("part-image");
+      const reader = new FileReader();
+      const part = {
+        category: document.getElementById("part-category").value,
+        subcategory: document.getElementById("part-subcategory").value,
+        name: document.getElementById("part-name").value,
+        number: document.getElementById("part-number").value,
+        make: document.getElementById("part-make").value.toLowerCase(),
+        model: document.getElementById("part-model").value.toLowerCase(),
+        years: document.getElementById("part-years").value,
+        image: ""
+      };
+
+      if (imageInput.files[0]) {
+        reader.onload = function (e) {
+          part.image = e.target.result;
+          savePart(part);
+        };
+        reader.readAsDataURL(imageInput.files[0]);
+      } else {
+        savePart(part);
+      }
+    }
+
+    function savePart(part) {
+      const existing = JSON.parse(localStorage.getItem("partsList") || "[]");
+      existing.push(part);
+      localStorage.setItem("partsList", JSON.stringify(existing));
+      renderPartsList();
+      alert("Part added successfully!");
     }
 
 </script>
