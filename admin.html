@@ -1,251 +1,48 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Toyota Store</title>
+  <title>Admin Panel</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .section-header {
-      background-color: #222;
-      padding: 12px;
-      font-weight: bold;
-      margin-top: 10px;
-      cursor: pointer;
-      color: white;
-      border-radius: 6px;
-    }
-    .collapsible {
-      display: none;
-      padding: 15px;
-      background: #1a1a1a;
-      margin-bottom: 20px;
-      border-radius: 6px;
-    }
-    .scroll-box {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-  </style>
 </head>
-<body onload="renderAccessoriesList(); renderPartsList(); loadBanner();">
-  <header class="header">
-    <img id="banner-image" src="banner.jpg" alt="Banner Image" class="banner-img" />
+<body onload="loadAdminPage()">
+  <header>
+    <img id="banner" src="banner.jpg" alt="Banner" class="banner"/>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="parts.html">Parts</a>
+      <a href="accessories.html">Accessories</a>
+    </nav>
   </header>
 
-  <main class="main" style="max-width: 900px; margin: auto;">
-    <div class="card">
+  <main class="main">
+    <h2 class="admin-title">Admin Panel</h2>
 
-    <div class="section-header" onclick="toggleSection('edit-text-section')">Edit Page Texts</div>
-    <div class="collapsible" id="edit-text-section">
-      <h4>Home Page</h4>
-      <input type="text" id="home-heading" placeholder="Main Heading" />
-      <input type="text" id="home-subheading" placeholder="Subheading" />
-      
+    <section class="upload-section">
+      <h3>Update Banner</h3>
+      <input type="file" id="bannerUpload" />
+      <button onclick="updateBanner()">Upload Banner</button>
 
-      <h4>Parts Page</h4>
-      <input type="text" id="parts-heading" placeholder="Parts Heading" />
-      <input type="text" id="parts-subheading" placeholder="Parts Subheading" />
-      
+      <h3>Update Logo</h3>
+      <input type="file" id="logoUpload" />
+      <button onclick="updateLogo()">Upload Logo</button>
+    </section>
 
-      <h4>Accessories Page</h4>
-      <input type="text" id="accessories-heading" placeholder="Accessories Heading" />
-      <input type="text" id="accessories-subheading" placeholder="Accessories Subheading" />
-      
-    </div>
-    
-      <h2>Admin Panel</h2>
+    <section class="manager-section">
+      <h3>Manage Parts</h3>
+      <div id="partsManager"></div>
+      <button onclick="addPart()">Add Part</button>
+    </section>
 
-      <div class="section-header" onclick="toggleSection('banner-section')">Banner</div>
-      <div class="collapsible" id="banner-section">
-        <label>Upload Banner Image</label>
-        <input type="file" id="banner-upload" accept="image/*" />
-        
-      </div>
-
-      <div class="section-header" onclick="toggleSection('add-part-section')">Add New Part</div>
-      <div class="collapsible" id="add-part-section">
-        <input type="text" id="part-category" placeholder="Category" />
-        <input type="text" id="part-subcategory" placeholder="Subcategory" />
-        <input type="text" id="part-name" placeholder="Part Name" />
-        <input type="text" id="part-number" placeholder="Part Number" />
-        <input type="text" id="part-make" placeholder="Make" />
-        <input type="text" id="part-model" placeholder="Model" />
-        <input type="text" id="part-years" placeholder="Year Range" />
-        <label>Part Image:</label>
-        <input type="file" id="part-image" accept="image/*" />
-        
-      </div>
-
-      <div class="section-header" onclick="toggleSection('manage-parts-section')">Manage Parts</div>
-      <div class="collapsible" id="manage-parts-section">
-        <div class="scroll-box" id="parts-list"></div>
-      </div>
-
-      <div class="section-header" onclick="toggleSection('add-accessory-section')">Add New Accessory</div>
-      <div class="collapsible" id="add-accessory-section">
-        <input type="text" id="accessory-category" placeholder="Category" />
-        <input type="text" id="accessory-subcategory" placeholder="Subcategory" />
-        <input type="text" id="accessory-name" placeholder="Accessory Name" />
-        <input type="text" id="accessory-number" placeholder="Accessory Number" />
-        <input type="text" id="accessory-make" placeholder="Make" />
-        <input type="text" id="accessory-model" placeholder="Model" />
-        <input type="text" id="accessory-years" placeholder="Year Range" />
-        <label>Accessory Image:</label>
-        <input type="file" id="accessory-image" accept="image/*" />
-        
-      </div>
-
-      <div class="section-header" onclick="toggleSection('manage-accessories-section')">Manage Accessories</div>
-      <div class="collapsible" id="manage-accessories-section">
-        <div class="scroll-box" id="accessories-list"></div>
-      </div>
-    </div>
+    <section class="manager-section">
+      <h3>Manage Accessories</h3>
+      <div id="accessoriesManager"></div>
+      <button onclick="addAccessory()">Add Accessory</button>
+    </section>
   </main>
 
-  <script>
-    function toggleSection(id) {
-      const section = document.getElementById(id);
-      section.style.display = section.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function updateBanner() {
-      const input = document.getElementById("banner-upload");
-      if (input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          localStorage.setItem("bannerImage", e.target.result);
-          document.getElementById("banner-image").src = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-
-    function loadBanner() {
-      const stored = localStorage.getItem("bannerImage");
-      if (stored) document.getElementById("banner-image").src = stored;
-    }
-
-    function addPart() {
-      const reader = new FileReader();
-      const imageInput = document.getElementById("part-image");
-      const part = {
-        category: document.getElementById("part-category").value,
-        subcategory: document.getElementById("part-subcategory").value,
-        name: document.getElementById("part-name").value,
-        number: document.getElementById("part-number").value,
-        make: document.getElementById("part-make").value.toLowerCase(),
-        model: document.getElementById("part-model").value.toLowerCase(),
-        years: document.getElementById("part-years").value,
-        image: ""
-      };
-      if (imageInput.files[0]) {
-        reader.onload = function(e) {
-          part.image = e.target.result;
-          savePart(part);
-        };
-        reader.readAsDataURL(imageInput.files[0]);
-      } else {
-        savePart(part);
-      }
-    }
-
-    function savePart(part) {
-      const existing = JSON.parse(localStorage.getItem("partsList") || "[]");
-      existing.push(part);
-      localStorage.setItem("partsList", JSON.stringify(existing));
-      renderPartsList();
-      alert("Part added successfully!");
-    }
-
-    function deletePart(index) {
-      const list = JSON.parse(localStorage.getItem("partsList") || "[]");
-      list.splice(index, 1);
-      localStorage.setItem("partsList", JSON.stringify(list));
-      renderPartsList();
-    }
-
-    function renderPartsList() {
-      const list = JSON.parse(localStorage.getItem("partsList") || "[]");
-      const container = document.getElementById("parts-list");
-      container.innerHTML = "";
-      list.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.innerHTML = `<strong>${item.name}</strong> (${item.model}) - ${item.years} 
-          `;
-        container.appendChild(div);
-      });
-    }
-
-    function addAccessory() {
-      const reader = new FileReader();
-      const imageInput = document.getElementById("accessory-image");
-      const accessory = {
-        category: document.getElementById("accessory-category").value,
-        subcategory: document.getElementById("accessory-subcategory").value,
-        name: document.getElementById("accessory-name").value,
-        number: document.getElementById("accessory-number").value,
-        make: document.getElementById("accessory-make").value.toLowerCase(),
-        model: document.getElementById("accessory-model").value.toLowerCase(),
-        years: document.getElementById("accessory-years").value,
-        image: ""
-      };
-      if (imageInput.files[0]) {
-        reader.onload = function(e) {
-          accessory.image = e.target.result;
-          saveAccessory(accessory);
-        };
-        reader.readAsDataURL(imageInput.files[0]);
-      } else {
-        saveAccessory(accessory);
-      }
-    }
-
-    function saveAccessory(accessory) {
-      const existing = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
-      existing.push(accessory);
-      localStorage.setItem("accessoriesList", JSON.stringify(existing));
-      renderAccessoriesList();
-      alert("Accessory added successfully!");
-    }
-
-    function deleteAccessory(index) {
-      const list = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
-      list.splice(index, 1);
-      localStorage.setItem("accessoriesList", JSON.stringify(list));
-      renderAccessoriesList();
-    }
-
-    function renderAccessoriesList() {
-      const list = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
-      const container = document.getElementById("accessories-list");
-      container.innerHTML = "";
-      list.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.innerHTML = `<strong>${item.name}</strong> (${item.model}) - ${item.years} 
-          `;
-        container.appendChild(div);
-      });
-    }
-  
-function saveHomeText() {
-  localStorage.setItem("homeHeading", document.getElementById("home-heading").value);
-  localStorage.setItem("homeSubheading", document.getElementById("home-subheading").value);
-  alert("Home text saved.");
-}
-
-function savePartsText() {
-  localStorage.setItem("partsHeading", document.getElementById("parts-heading").value);
-  localStorage.setItem("partsSubheading", document.getElementById("parts-subheading").value);
-  alert("Parts text saved.");
-}
-
-function saveAccessoriesText() {
-  localStorage.setItem("accessoriesHeading", document.getElementById("accessories-heading").value);
-  localStorage.setItem("accessoriesSubheading", document.getElementById("accessories-subheading").value);
-  alert("Accessories text saved.");
-}
-
-</script>
+  <script src="admin.js"></script>
 </body>
 </html>
