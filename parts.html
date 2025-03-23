@@ -174,7 +174,8 @@
             const partCard = document.createElement("div");
             partCard.className = "part-card";
             partCard.innerHTML = `
-              <div class="part-name">${part.name}</div>
+              <img src="${part.image}" alt="Part Image" style="width:100%;max-height:120px;object-fit:contain;margin-bottom:8px;border-radius:4px;" />
+<div class="part-name">${part.name}</div>
               <div class="part-details">Part #: ${part.number}</div>
               <div class="part-details">Years: ${part.years}</div>
             `;
