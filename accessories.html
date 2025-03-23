@@ -96,188 +96,21 @@
     <p>&copy; 2025 Toyota Liffey Valley. All rights reserved.</p>
   </footer>
 
-  <script>
-    function loadPage() {
-      loadBanner();
-      showVehicleInfo();
-      loadAccessoriesForVehicle();
-    }
-
-    function loadBanner() {
-      const stored = localStorage.getItem('bannerImage');
-      if (stored) document.getElementById('banner-image').src = stored;
-    }
-
-    function showVehicleInfo() {
-      const params = new URLSearchParams(window.location.search);
-      const make = params.get('make');
-      const model = params.get('model');
-      const reg = params.get('reg');
-      const subBanner = document.getElementById('vehicle-info');
-      if (make && model && reg) {
-        subBanner.textContent = `Vehicle: ${make} ${model} (${reg})`;
-      }
-    }
-
-    function toggleCategoryContent(id) {
-      const section = document.getElementById(id);
-      section.style.display = section.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function loadAccessoriesForVehicle() {
-      const params = new URLSearchParams(window.location.search);
-      const make = params.get('make')?.toLowerCase();
-      const model = params.get('model')?.toLowerCase();
-      const accessoriesList = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
-      const container = document.getElementById("accessories-container");
-      container.innerHTML = "";
-
-      const grouped = {};
-
-      accessoriesList.forEach(part => {
-        if (part.make === make && part.model === model) {
-          if (!grouped[part.category]) grouped[part.category] = {};
-          if (!grouped[part.category][part.subcategory]) grouped[part.category][part.subcategory] = [];
-          grouped[part.category][part.subcategory].push(part);
-        }
-      });
-
-      if (Object.keys(grouped).length === 0) {
-        container.innerHTML = "<p style='color:#999;'>No accessories found for this vehicle.</p>";
-        return;
-      }
-
-      let count = 0;
-      for (let category in grouped) {
-        const toggle = document.createElement("div");
-        toggle.className = "category-toggle";
-        toggle.textContent = category;
-        toggle.setAttribute("onclick", `toggleCategoryContent('cat${count}')`);
-
-        const catContent = document.createElement("div");
-        catContent.className = "category-content";
-        catContent.id = `cat${count}`;
-
-        for (let sub in grouped[category]) {
-          const subGroup = document.createElement("div");
-          subGroup.className = "subcategory-group";
-
-          const subTitle = document.createElement("div");
-          subTitle.className = "subcategory-title";
-          subTitle.textContent = sub;
-          subGroup.appendChild(subTitle);
-
-          grouped[category][sub].forEach(part => {
-            const partCard = document.createElement("div");
-            partCard.className = "part-card";
-            partCard.innerHTML = (part.image ? `<img src="${part.image}" alt="Image" style="width:100%;max-height:120px;object-fit:contain;margin-bottom:8px;border-radius:4px;" />` : "") +
-              `<div class="part-name">${part.name}</div>
-              <div class="part-details">Part #: ${part.number}</div>
-              <div class="part-details">Years: ${part.years}</div>`;
-            subGroup.appendChild(partCard);
-          });
-
-          catContent.appendChild(subGroup);
-        }
-
-        container.appendChild(toggle);
-        container.appendChild(catContent);
-        count++;
-      }
-    }
-  </script>
-
-<script>
-  function updatePartsLink() {
-    const params = new URLSearchParams(window.location.search);
-    const reg = params.get("reg") || "";
-    const make = params.get("make") || "";
-    const model = params.get("model") || "";
-    const link = document.getElementById("parts-link");
-    if (link) {
-      link.href = `parts.html?reg=${reg}&make=${make}&model=${model}`;
-    }
-  }
-
-  window.onload = function () {
-    loadPage();
-    updatePartsLink();
-  };
-</script>
+  
 
 
-<script>
-  function updatePartsLink() {
-    const params = new URLSearchParams(window.location.search);
-    const reg = params.get("reg") || "";
-    const make = params.get("make") || "";
-    const model = params.get("model") || "";
-    const link = document.getElementById("parts-link");
-    if (link) {
-      link.href = `parts.html?reg=${reg}&make=${make}&model=${model}`;
-    }
-  }
-
-  function loadPage() {
-    loadBanner();
-    showVehicleInfo();
-    loadAccessoriesForVehicle();
-    updatePartsLink();
-  }
-</script>
 
 
-<script>
-  function updatePartsLink() {
-    const params = new URLSearchParams(window.location.search);
-    const reg = params.get("reg") || "";
-    const make = params.get("make") || "";
-    const model = params.get("model") || "";
-    const link = document.getElementById("parts-link");
-    if (link) {
-      link.href = `parts.html?reg=${reg}&make=${make}&model=${model}`;
-    }
-  }
-
-  function loadPage() {
-    loadBanner();
-    showVehicleInfo();
-    loadAccessoriesForVehicle();
-    updatePartsLink();
-  }
-</script>
 
 
-<script>
-  function updatePartsLink() {
-    const params = new URLSearchParams(window.location.search);
-    const reg = params.get("reg") || "";
-    const make = params.get("make") || "";
-    const model = params.get("model") || "";
-    const link = document.getElementById("parts-link");
-    if (link) {
-      link.href = `parts.html?reg=${reg}&make=${make}&model=${model}`;
-    }
-  }
-
-  function loadPage() {
-    loadBanner();
-    showVehicleInfo();
-    loadAccessoriesForVehicle();
-    updatePartsLink();
-  }
-</script>
 
 
-<script>
-  window.onload = function () {
-    loadPage?.(); // call loadPage() if it exists
-    const heading = localStorage.getItem("accessories-heading");
-    const subheading = localStorage.getItem("accessories-subheading");
-    if (heading) document.getElementById("accessories-heading").textContent = heading;
-    if (subheading) document.getElementById("accessories-subheading").textContent = subheading;
-  };
-</script>
+
+
+
+
+
+
 
 
 <script>
@@ -333,6 +166,44 @@
       item.style.display = (matchSearch && matchMake && matchModel) ? "block" : "none";
     });
   }
+</script>
+
+
+<script>
+  function loadPage() {
+    const params = new URLSearchParams(window.location.search);
+    const reg = params.get("reg");
+    const make = (params.get("make") || "").toLowerCase();
+    const model = (params.get("model") || "").toLowerCase();
+
+    const heading = document.getElementById("accessories-heading");
+    const subheading = document.getElementById("accessories-subheading");
+    if (heading && localStorage.getItem("accessories-heading")) {
+      heading.textContent = localStorage.getItem("accessories-heading");
+    }
+    if (subheading && localStorage.getItem("accessories-subheading")) {
+      subheading.textContent = localStorage.getItem("accessories-subheading");
+    }
+
+    const container = document.getElementById("itemsContainer");
+    const data = JSON.parse(localStorage.getItem("accessories") || "[]");
+
+    container.innerHTML = data.map((item, i) => {
+      const matches = (!make || item.make.toLowerCase() === make) &&
+                      (!model || item.model.toLowerCase() === model);
+      if (!make && !model || matches) {
+        return `<div class="item" data-name="\${item.name}" data-number="\${item.partNumber}" data-make="\${item.make}" data-model="\${item.model}">
+                  <strong>\${item.name}</strong> - \${item.partNumber} (\${item.make} \${item.model}) - €\${item.price}
+                </div>`;
+      }
+      return "";
+    }).join("");
+  }
+
+  window.onload = function () {
+    loadPage();
+    updatePartsLink?.();
+  };
 </script>
 
 </body>
