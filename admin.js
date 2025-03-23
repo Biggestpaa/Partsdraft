@@ -1,24 +1,97 @@
 
 function loadAdminPage() {
-  console.log("Admin page loaded.");
-  // Load banner/logo from localStorage or server here
-  // Load and display parts/accessories
+  loadBanner();
+  loadLogo();
+  displayParts();
+  displayAccessories();
+}
+
+function loadBanner() {
+  const banner = localStorage.getItem("bannerImage");
+  if (banner) document.getElementById("banner").src = banner;
+}
+
+function loadLogo() {
+  const logo = localStorage.getItem("logoImage");
+  if (logo) document.getElementById("logo").src = logo;
 }
 
 function updateBanner() {
-  const fileInput = document.getElementById('bannerUpload');
-  alert("Pretend we uploaded: " + fileInput.files[0]?.name);
+  const input = document.getElementById("bannerUpload");
+  const reader = new FileReader();
+  reader.onload = function () {
+    localStorage.setItem("bannerImage", reader.result);
+    document.getElementById("banner").src = reader.result;
+  };
+  if (input.files[0]) reader.readAsDataURL(input.files[0]);
 }
 
 function updateLogo() {
-  const fileInput = document.getElementById('logoUpload');
-  alert("Pretend we uploaded: " + fileInput.files[0]?.name);
+  const input = document.getElementById("logoUpload");
+  const reader = new FileReader();
+  reader.onload = function () {
+    localStorage.setItem("logoImage", reader.result);
+    document.getElementById("logo").src = reader.result;
+  };
+  if (input.files[0]) reader.readAsDataURL(input.files[0]);
+}
+
+function displayParts() {
+  const container = document.getElementById("partsManager");
+  const parts = JSON.parse(localStorage.getItem("parts") || "[]");
+  container.innerHTML = parts.map((part, i) => `
+    <div class="admin-item">
+      <strong>${part.name}</strong> - ${part.partNumber} (${part.make} ${part.model}) - €${part.price}
+      <button onclick="deletePart(${i})">Delete</button>
+    </div>
+  `).join("");
+}
+
+function displayAccessories() {
+  const container = document.getElementById("accessoriesManager");
+  const accessories = JSON.parse(localStorage.getItem("accessories") || "[]");
+  container.innerHTML = accessories.map((item, i) => `
+    <div class="admin-item">
+      <strong>${item.name}</strong> - ${item.partNumber} (${item.make} ${item.model}) - €${item.price}
+      <button onclick="deleteAccessory(${i})">Delete</button>
+    </div>
+  `).join("");
 }
 
 function addPart() {
-  alert("Add Part function not yet implemented.");
+  const name = prompt("Part name:");
+  const partNumber = prompt("Part number:");
+  const make = prompt("Make:");
+  const model = prompt("Model:");
+  const price = prompt("Price:");
+  const parts = JSON.parse(localStorage.getItem("parts") || "[]");
+  parts.push({ name, partNumber, make, model, price });
+  localStorage.setItem("parts", JSON.stringify(parts));
+  displayParts();
 }
 
 function addAccessory() {
-  alert("Add Accessory function not yet implemented.");
+  const name = prompt("Accessory name:");
+  const partNumber = prompt("Part number:");
+  const make = prompt("Make:");
+  const model = prompt("Model:");
+  const price = prompt("Price:");
+  const accessories = JSON.parse(localStorage.getItem("accessories") || "[]");
+  accessories.push({ name, partNumber, make, model, price });
+  localStorage.setItem("accessories", JSON.stringify(accessories));
+  displayAccessories();
+}
+
+function deletePart(index) {
+  const parts = JSON.parse(localStorage.getItem("parts") || "[]");
+  parts.splice(index, 1);
+  localStorage.setItem("parts", JSON.stringify(parts));
+  displayParts();
+}
+
+function deleteAccessory(index) {
+  const accessories = JSON.parse(localStorage.getItem("accessories") || "[]");
+  accessories.splice(index, 1);
+  localStorage.setItem("accessories", JSON.stringify(accessories));
+  displayAccessories();
 }
