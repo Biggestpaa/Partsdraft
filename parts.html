@@ -234,5 +234,33 @@
   };
 </script>
 
+
+<script>
+  function updatePartsLink() {
+    const params = new URLSearchParams(window.location.search);
+    const reg = params.get("reg") || "";
+    const make = params.get("make") || "";
+    const model = params.get("model") || "";
+    const partsLink = document.getElementById("parts-link");
+    const accessoriesLink = document.getElementById("accessories-link");
+
+    if (partsLink) {
+      partsLink.href = `parts.html?reg=${reg}&make=${make}&model=${model}`;
+    }
+    if (accessoriesLink) {
+      accessoriesLink.href = `accessories.html?reg=${reg}&make=${make}&model=${model}`;
+    }
+  }
+
+  window.onload = function () {
+    loadPage?.();
+    const heading = localStorage.getItem("parts-heading");
+    const subheading = localStorage.getItem("parts-subheading");
+    if (heading) document.getElementById("parts-heading").textContent = heading;
+    if (subheading) document.getElementById("parts-subheading").textContent = subheading;
+    updatePartsLink();
+  };
+</script>
+
 </body>
 </html>
