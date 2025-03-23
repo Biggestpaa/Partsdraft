@@ -73,10 +73,11 @@
     <img id="banner-image" src="banner.jpg" alt="Toyota Banner" class="banner-img" />
   </header>
 <nav class="nav">
-<a href="index.html">Home</a>
-<a href="#" id="parts-link">Parts</a>
-<a href="#" class="active">Accessories</a>
+  <a href="index.html">Home</a>
+  <a href="#" id="parts-link">Parts</a>
 </nav>
+
+
 
   <div class="vehicle-banner" id="vehicle-info">Vehicle: Unknown</div>
 
@@ -199,6 +200,27 @@
     loadPage();
     updatePartsLink();
   };
+</script>
+
+
+<script>
+  function updatePartsLink() {
+    const params = new URLSearchParams(window.location.search);
+    const reg = params.get("reg") || "";
+    const make = params.get("make") || "";
+    const model = params.get("model") || "";
+    const link = document.getElementById("parts-link");
+    if (link) {
+      link.href = `parts.html?reg=${reg}&make=${make}&model=${model}`;
+    }
+  }
+
+  function loadPage() {
+    loadBanner();
+    showVehicleInfo();
+    loadAccessoriesForVehicle();
+    updatePartsLink();
+  }
 </script>
 
 
