@@ -86,3 +86,29 @@ button:hover {
   font-weight: bold;
   font-size: 16px;
 }
+
+
+.nav {
+  background-color: #000;
+  padding: 10px;
+  text-align: center;
+}
+
+.nav a {
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.nav a:hover {
+  color: #d71920;
+  text-shadow: 0 0 5px rgba(255,255,255,0.2);
+}
+
+.nav a.active {
+  color: #d71920;
+  text-decoration: underline;
+}
