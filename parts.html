@@ -122,85 +122,30 @@
 
 
 
-<script>
-  function updatePartsLink() {
-    const params = new URLSearchParams(window.location.search);
-    const reg = params.get("reg") || "";
-    const make = params.get("make") || "";
-    const model = params.get("model") || "";
-    const partsLink = document.getElementById("parts-link");
-    const accessoriesLink = document.getElementById("accessories-link");
 
-    if (partsLink) {
-      partsLink.href = `parts.html?reg=${reg}&make=${make}&model=${model}`;
-    }
-    if (accessoriesLink) {
-      accessoriesLink.href = `accessories.html?reg=${reg}&make=${make}&model=${model}`;
-    }
-  }
-
-  window.onload = function () {
-    loadPage?.();
-    const heading = localStorage.getItem("parts-heading");
-    const subheading = localStorage.getItem("parts-subheading");
-    if (heading) document.getElementById("parts-heading").textContent = heading;
-    if (subheading) document.getElementById("parts-subheading").textContent = subheading;
-    updatePartsLink();
-  };
-</script>
-
-
-<script>
-  function toggleFilterBar() {
-    const bar = document.getElementById("filterBar");
-    bar.style.display = bar.style.display === "none" ? "block" : "none";
-  }
-
-  function filterItems() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
-    const make = document.getElementById("filterMake").value.toLowerCase();
-    const model = document.getElementById("filterModel").value.toLowerCase();
-    const items = document.querySelectorAll(".item");
-
-    items.forEach(item => {
-      const name = item.getAttribute("data-name")?.toLowerCase() || "";
-      const number = item.getAttribute("data-number")?.toLowerCase() || "";
-      const itemMake = item.getAttribute("data-make")?.toLowerCase() || "";
-      const itemModel = item.getAttribute("data-model")?.toLowerCase() || "";
-
-      const matchSearch = name.includes(input) || number.includes(input);
-      const matchMake = !make || itemMake === make;
-      const matchModel = !model || itemModel === model;
-
-      item.style.display = (matchSearch && matchMake && matchModel) ? "block" : "none";
-    });
-  }
-</script>
 
 
 <script>
   function loadPage() {
+    // Load banner
+    const banner = localStorage.getItem("bannerImage");
+    if (banner) {
+      const bannerImg = document.getElementById("banner");
+      if (bannerImg) bannerImg.src = banner;
+    }
+
     const params = new URLSearchParams(window.location.search);
-    const reg = params.get("reg");
     const make = (params.get("make") || "").toLowerCase();
     const model = (params.get("model") || "").toLowerCase();
 
-    const heading = document.getElementById("parts-heading");
-    const subheading = document.getElementById("parts-subheading");
-    if (heading && localStorage.getItem("parts-heading")) {
-      heading.textContent = localStorage.getItem("parts-heading");
-    }
-    if (subheading && localStorage.getItem("parts-subheading")) {
-      subheading.textContent = localStorage.getItem("parts-subheading");
-    }
-
-    const container = document.getElementById("itemsContainer");
     const data = JSON.parse(localStorage.getItem("parts") || "[]");
+    const container = document.getElementById("itemsContainer");
 
-    container.innerHTML = data.map((item, i) => {
-      const matches = (!make || item.make.toLowerCase() === make) &&
-                      (!model || item.model.toLowerCase() === model);
-      if (!make && !model || matches) {
+    container.innerHTML = data.map((item) => {
+      const matches = (!make && !model) ||
+                      (item.make?.toLowerCase() === make && item.model?.toLowerCase() === model);
+
+      if (matches) {
         return `<div class="item" data-name="\${item.name}" data-number="\${item.partNumber}" data-make="\${item.make}" data-model="\${item.model}">
                   <strong>\${item.name}</strong> - \${item.partNumber} (\${item.make} \${item.model}) - €\${item.price}
                 </div>`;
