@@ -2,14 +2,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .admin-section {
+      margin: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 8px;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 6px;
+    }
+    .item-list {
+      margin-top: 10px;
+      padding-left: 15px;
+    }
+    .admin-item {
+      margin-bottom: 8px;
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .collapsible-form {
+      display: none;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body onload="loadAdminPage()">
   <header>
-    <img id="banner" src="banner.jpg" alt="Banner" class="banner"/>
+    <img id="banner" class="banner" src="banner.jpg" alt="Banner"/>
     <nav class="nav">
       <a href="index.html">Home</a>
       <a href="parts.html">Parts</a>
@@ -20,26 +54,48 @@
   <main class="main">
     <h2 class="admin-title">Admin Panel</h2>
 
-    <section class="upload-section">
+    <section class="admin-section">
       <h3>Update Banner</h3>
-      <input type="file" id="bannerUpload" />
+      <input type="file" id="bannerUpload"/>
       <button onclick="updateBanner()">Upload Banner</button>
 
       <h3>Update Logo</h3>
-      <input type="file" id="logoUpload" />
+      <input type="file" id="logoUpload"/>
       <button onclick="updateLogo()">Upload Logo</button>
     </section>
 
-    <section class="manager-section">
+    <section class="admin-section">
       <h3>Manage Parts</h3>
-      <div id="partsManager"></div>
-      <button onclick="addPart()">Add Part</button>
+      <button onclick="toggleForm('partsForm')">+ Add New Part</button>
+      <div id="partsForm" class="collapsible-form">
+        <div class="form-group"><label>Name:</label><input type="text" id="partName"/></div>
+        <div class="form-group"><label>Part Number:</label><input type="text" id="partNumber"/></div>
+        <div class="form-group"><label>Price (€):</label><input type="number" id="partPrice"/></div>
+        <div class="form-group"><label>Make:</label><input type="text" id="partMake"/></div>
+        <div class="form-group"><label>Model:</label><input type="text" id="partModel"/></div>
+        <div class="form-group"><label>Year:</label><input type="text" id="partYear"/></div>
+        <div class="form-group"><label>Category:</label><input type="text" id="partCategory"/></div>
+        <div class="form-group"><label>Subcategory:</label><input type="text" id="partSubcategory"/></div>
+        <button onclick="addPart()">Save Part</button>
+      </div>
+      <div id="partsManager" class="item-list"></div>
     </section>
 
-    <section class="manager-section">
+    <section class="admin-section">
       <h3>Manage Accessories</h3>
-      <div id="accessoriesManager"></div>
-      <button onclick="addAccessory()">Add Accessory</button>
+      <button onclick="toggleForm('accessoriesForm')">+ Add New Accessory</button>
+      <div id="accessoriesForm" class="collapsible-form">
+        <div class="form-group"><label>Name:</label><input type="text" id="accessoryName"/></div>
+        <div class="form-group"><label>Part Number:</label><input type="text" id="accessoryNumber"/></div>
+        <div class="form-group"><label>Price (€):</label><input type="number" id="accessoryPrice"/></div>
+        <div class="form-group"><label>Make:</label><input type="text" id="accessoryMake"/></div>
+        <div class="form-group"><label>Model:</label><input type="text" id="accessoryModel"/></div>
+        <div class="form-group"><label>Year:</label><input type="text" id="accessoryYear"/></div>
+        <div class="form-group"><label>Category:</label><input type="text" id="accessoryCategory"/></div>
+        <div class="form-group"><label>Subcategory:</label><input type="text" id="accessorySubcategory"/></div>
+        <button onclick="addAccessory()">Save Accessory</button>
+      </div>
+      <div id="accessoriesManager" class="item-list"></div>
     </section>
   </main>
 
