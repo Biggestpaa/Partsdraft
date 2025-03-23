@@ -5,8 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel - Toyota Parts Store</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .section-header {
+      background-color: #222;
+      color: white;
+      padding: 12px 16px;
+      font-weight: 600;
+      border: 1px solid #333;
+      margin-bottom: 0;
+      cursor: pointer;
+      border-radius: 5px 5px 0 0;
+    }
+
+    .collapsible {
+      display: none;
+      padding: 16px;
+      background: #1b1b1b;
+      border: 1px solid #333;
+      border-top: none;
+      margin-bottom: 20px;
+      border-radius: 0 0 5px 5px;
+    }
+
+    .parts-table {
+      width: 100%;
+      color: white;
+      font-size: 14px;
+      border-collapse: collapse;
+    }
+
+    .parts-table th, .parts-table td {
+      border: 1px solid #444;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .parts-table td input {
+      width: 100%;
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 4px;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      margin: 0 4px;
+    }
+
+    .scroll-box {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #333;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 4px;
+    }
+  </style>
 </head>
-<body onload="loadBanner(); loadWelcomeMessage();">
+<body onload="loadPage()">
   <header class="header">
     <img id="banner-image" src="banner.jpg" alt="Banner Image" class="banner-img" />
     <div class="header-text">
@@ -14,67 +77,48 @@
     </div>
   </header>
 
-  <main class="main">
+  <main class="main" style="flex-direction: column;">
     <div class="card">
-      <h2>Update Banner Image</h2>
-      <input type="file" id="banner-upload" accept="image/*">
-      <button onclick="saveBanner()">Update Banner</button>
+      <div class="section-header" onclick="toggleSection('banner-section')">Banner & Welcome Settings</div>
+      <div class="collapsible" id="banner-section">
+        <label>Banner Image:</label><br />
+        <input type="file" id="banner-upload" accept="image/*" />
+        <button onclick="saveBanner()">Update Banner</button><br /><br />
+        <label>Page Title:</label>
+        <input type="text" id="header-title-input" placeholder="Page Title..." />
+        <button onclick="saveHeaderTitle()">Save Title</button><br /><br />
+        <label>Welcome Message:</label>
+        <textarea id="welcome-input" rows="3" placeholder="Edit welcome message..."></textarea>
+        <button onclick="saveWelcomeMessage()">Save Welcome</button>
+      </div>
+
+      <div class="section-header" onclick="toggleSection('parts-section')">Parts Page Content</div>
+      <div class="collapsible" id="parts-section">
+        <label>Parts Page Title:</label>
+        <input type="text" id="parts-title-input" placeholder="Parts Page Title..." />
+        <button onclick="savePartsTitle()">Save Parts Title</button><br /><br />
+        <label>Parts Page Intro:</label>
+        <textarea id="parts-intro-input" rows="3" placeholder="Edit parts intro..."></textarea>
+        <button onclick="savePartsIntro()">Save Intro</button>
+      </div>
+
+      <div class="section-header" onclick="toggleSection('add-part-section')">Add New Part</div>
+      <div class="collapsible" id="add-part-section">
+        <input type="text" id="part-category" placeholder="Category (e.g. Filters)" />
+        <input type="text" id="part-subcategory" placeholder="Subcategory (e.g. Oil Filter)" />
+        <input type="text" id="part-name" placeholder="Part Name" />
+        <input type="text" id="part-number" placeholder="Part Number" />
+        <input type="text" id="part-make" placeholder="Make" />
+        <input type="text" id="part-model" placeholder="Model" />
+        <input type="text" id="part-years" placeholder="Year Range" />
+        <button onclick="addPart()">Add Part</button>
+      </div>
+
+      <div class="section-header" onclick="toggleSection('manage-parts-section')">Manage Parts</div>
+      <div class="collapsible" id="manage-parts-section">
+        <div class="scroll-box" id="parts-list"></div>
+      </div>
     </div>
-
-    <div class="card">
-      <h2>Edit Page Title</h2>
-      <input type="text" id="header-title-input" placeholder="Page Title...">
-      <button onclick="saveHeaderTitle()">Save Title</button>
-      <button onclick="resetHeaderTitle()">Reset Title</button>
-    </div>
-
-    <div class="card">
-      <h2>Edit Welcome Message</h2>
-      <textarea id="welcome-input" rows="3" placeholder="Edit welcome message..."></textarea>
-      <button onclick="saveWelcomeMessage()">Save Message</button>
-      <button onclick="resetWelcomeMessage()">Reset to Default</button>
-    </div>
-
-    <div class="card">
-      <h2>Edit Parts Page Title</h2>
-      <input type="text" id="parts-title-input" placeholder="Parts Page Title...">
-      <button onclick="savePartsTitle()">Save Parts Title</button>
-      <button onclick="resetPartsTitle()">Reset Parts Title</button>
-    </div>
-
-    <div class="card">
-      <h2>Edit Parts Page Intro</h2>
-      <textarea id="parts-intro-input" rows="3" placeholder="Edit parts intro..."></textarea>
-      <button onclick="savePartsIntro()">Save Parts Intro</button>
-      <button onclick="resetPartsIntro()">Reset Parts Intro</button>
-    </div>
-  
-    <div class="card">
-      <h2>Add New Part</h2>
-      <label>Category</label>
-      <input type="text" id="part-category" placeholder="e.g. Filters, Brakes" />
-
-      <label>Subcategory</label>
-      <input type="text" id="part-subcategory" placeholder="e.g. Oil Filter, Rear Pads" />
-
-      <label>Part Name</label>
-      <input type="text" id="part-name" placeholder="e.g. Toyota Oil Filter 90915-YZZJ1" />
-
-      <label>Part Number</label>
-      <input type="text" id="part-number" placeholder="e.g. 90915-YZZJ1" />
-
-      <label>Make</label>
-      <input type="text" id="part-make" placeholder="e.g. Toyota" />
-
-      <label>Model</label>
-      <input type="text" id="part-model" placeholder="e.g. Yaris" />
-
-      <label>Year Range</label>
-      <input type="text" id="part-years" placeholder="e.g. 2014–2018" />
-
-      <button onclick="addPart()">Add Part</button>
-    </div>
-
   </main>
 
   <footer class="footer">
@@ -82,9 +126,21 @@
   </footer>
 
   <script>
-    function loadBanner() {
-      const stored = localStorage.getItem('bannerImage');
-      if (stored) document.getElementById('banner-image').src = stored;
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function loadPage() {
+      loadBanner();
+      loadWelcomeMessage();
+      const storedTitle = localStorage.getItem('headerTitle');
+      if (storedTitle) document.getElementById('header-title-input').value = storedTitle;
+      const partsTitle = localStorage.getItem('partsTitle');
+      if (partsTitle) document.getElementById('parts-title-input').value = partsTitle;
+      const partsIntro = localStorage.getItem('partsIntro');
+      if (partsIntro) document.getElementById('parts-intro-input').value = partsIntro;
+      renderPartsList();
     }
 
     function saveBanner() {
@@ -106,64 +162,24 @@
       alert("Welcome message updated!");
     }
 
-    function loadWelcomeMessage() {
-      const stored = localStorage.getItem('welcomeMessage');
-      if (stored) document.getElementById('welcome-input').value = stored;
-    }
-
-    function resetWelcomeMessage() {
-      localStorage.removeItem('welcomeMessage');
-      document.getElementById('welcome-input').value = '';
-      alert("Welcome message reset to default.");
-    }
-
     function saveHeaderTitle() {
       const title = document.getElementById('header-title-input').value;
       localStorage.setItem('headerTitle', title);
-      alert("Page title updated!");
-    }
-
-    function resetHeaderTitle() {
-      localStorage.removeItem('headerTitle');
-      document.getElementById('header-title-input').value = '';
-      alert("Page title reset.");
+      alert("Title updated!");
     }
 
     function savePartsTitle() {
       const title = document.getElementById('parts-title-input').value;
       localStorage.setItem('partsTitle', title);
-      alert("Parts page title updated!");
-    }
-
-    function resetPartsTitle() {
-      localStorage.removeItem('partsTitle');
-      document.getElementById('parts-title-input').value = '';
-      alert("Parts page title reset.");
+      alert("Parts title updated!");
     }
 
     function savePartsIntro() {
       const intro = document.getElementById('parts-intro-input').value;
       localStorage.setItem('partsIntro', intro);
-      alert("Parts intro updated!");
+      alert("Intro updated!");
     }
 
-    function resetPartsIntro() {
-      localStorage.removeItem('partsIntro');
-      document.getElementById('parts-intro-input').value = '';
-      alert("Parts intro reset.");
-    }
-
-    window.onload = function() {
-      loadBanner();
-      loadWelcomeMessage();
-      const storedTitle = localStorage.getItem('headerTitle');
-      if (storedTitle) document.getElementById('header-title-input').value = storedTitle;
-      const partsTitle = localStorage.getItem('partsTitle');
-      if (partsTitle) document.getElementById('parts-title-input').value = partsTitle;
-      const partsIntro = localStorage.getItem('partsIntro');
-      if (partsIntro) document.getElementById('parts-intro-input').value = partsIntro;
-    };
-  
     function addPart() {
       const part = {
         category: document.getElementById('part-category').value,
@@ -178,9 +194,48 @@
       const existing = JSON.parse(localStorage.getItem('partsList') || '[]');
       existing.push(part);
       localStorage.setItem('partsList', JSON.stringify(existing));
+      renderPartsList();
       alert('Part added successfully!');
     }
 
-</script>
+    function deletePart(index) {
+      const parts = JSON.parse(localStorage.getItem('partsList') || '[]');
+      parts.splice(index, 1);
+      localStorage.setItem('partsList', JSON.stringify(parts));
+      renderPartsList();
+    }
+
+    function renderPartsList() {
+      const parts = JSON.parse(localStorage.getItem('partsList') || '[]');
+      const container = document.getElementById('parts-list');
+      container.innerHTML = "";
+      if (parts.length === 0) {
+        container.innerHTML = "<p style='color:#999;'>No parts added yet.</p>";
+        return;
+      }
+
+      const table = document.createElement('table');
+      table.className = 'parts-table';
+      table.innerHTML = "<thead><tr><th>Category</th><th>Name</th><th>Model</th><th>Years</th><th>Action</th></tr></thead>";
+
+      const tbody = document.createElement('tbody');
+      parts.forEach((part, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${part.category}</td>
+          <td>${part.name}</td>
+          <td>${part.model}</td>
+          <td>${part.years}</td>
+          <td class="btn-group">
+            <button class="action-btn" onclick="deletePart(${index})">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+      container.appendChild(table);
+    }
+  </script>
 </body>
 </html>
