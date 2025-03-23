@@ -223,5 +223,16 @@
   };
 </script>
 
+
+<script>
+  window.onload = function () {
+    loadPage?.(); // call loadPage() if it exists
+    const heading = localStorage.getItem("parts-heading");
+    const subheading = localStorage.getItem("parts-subheading");
+    if (heading) document.getElementById("parts-heading").textContent = heading;
+    if (subheading) document.getElementById("parts-subheading").textContent = subheading;
+  };
+</script>
+
 </body>
 </html>

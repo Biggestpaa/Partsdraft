@@ -268,5 +268,16 @@
   }
 </script>
 
+
+<script>
+  window.onload = function () {
+    loadPage?.(); // call loadPage() if it exists
+    const heading = localStorage.getItem("accessories-heading");
+    const subheading = localStorage.getItem("accessories-subheading");
+    if (heading) document.getElementById("accessories-heading").textContent = heading;
+    if (subheading) document.getElementById("accessories-subheading").textContent = subheading;
+  };
+</script>
+
 </body>
 </html>
