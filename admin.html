@@ -121,7 +121,27 @@
         <div class="scroll-box" id="parts-list"></div>
       </div>
     </div>
-  </main>
+  
+      <div class="section-header" onclick="toggleSection('add-accessory-section')">Add New Accessory</div>
+      <div class="collapsible" id="add-accessory-section">
+        <input type="text" id="accessory-category" placeholder="Category (e.g. Mats)" />
+        <input type="text" id="accessory-subcategory" placeholder="Subcategory (e.g. Front Mats)" />
+        <input type="text" id="accessory-name" placeholder="Accessory Name" />
+        <input type="text" id="accessory-number" placeholder="Accessory Number" />
+        <input type="text" id="accessory-make" placeholder="Make" />
+        <input type="text" id="accessory-model" placeholder="Model" />
+        <input type="text" id="accessory-years" placeholder="Year Range" />
+        <label>Accessory Image:</label>
+        <input type="file" id="accessory-image" accept="image/*" />
+        <button onclick="addAccessory()">Add Accessory</button>
+      </div>
+
+      <div class="section-header" onclick="toggleSection('manage-accessories-section')">Manage Accessories</div>
+      <div class="collapsible" id="manage-accessories-section">
+        <div class="scroll-box" id="accessories-list"></div>
+      </div>
+
+</main>
 
   <footer class="footer">
     <p>&copy; 2025 Toyota Liffey Valley. Admin Panel</p>
@@ -282,6 +302,79 @@
       localStorage.setItem("partsList", JSON.stringify(existing));
       renderPartsList();
       alert("Part added successfully!");
+    }
+
+
+    function addAccessory() {
+      const imageInput = document.getElementById("accessory-image");
+      const reader = new FileReader();
+      const accessory = {
+        category: document.getElementById("accessory-category").value,
+        subcategory: document.getElementById("accessory-subcategory").value,
+        name: document.getElementById("accessory-name").value,
+        number: document.getElementById("accessory-number").value,
+        make: document.getElementById("accessory-make").value.toLowerCase(),
+        model: document.getElementById("accessory-model").value.toLowerCase(),
+        years: document.getElementById("accessory-years").value,
+        image: ""
+      };
+
+      if (imageInput.files[0]) {
+        reader.onload = function (e) {
+          accessory.image = e.target.result;
+          saveAccessory(accessory);
+        };
+        reader.readAsDataURL(imageInput.files[0]);
+      } else {
+        saveAccessory(accessory);
+      }
+    }
+
+    function saveAccessory(accessory) {
+      const existing = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
+      existing.push(accessory);
+      localStorage.setItem("accessoriesList", JSON.stringify(existing));
+      renderAccessoriesList();
+      alert("Accessory added successfully!");
+    }
+
+    function deleteAccessory(index) {
+      const accessories = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
+      accessories.splice(index, 1);
+      localStorage.setItem("accessoriesList", JSON.stringify(accessories));
+      renderAccessoriesList();
+    }
+
+    function renderAccessoriesList() {
+      const accessories = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
+      const container = document.getElementById("accessories-list");
+      container.innerHTML = "";
+      if (accessories.length === 0) {
+        container.innerHTML = "<p style='color:#999;'>No accessories added yet.</p>";
+        return;
+      }
+
+      const table = document.createElement('table');
+      table.className = 'parts-table';
+      table.innerHTML = "<thead><tr><th>Category</th><th>Name</th><th>Model</th><th>Years</th><th>Action</th></tr></thead>";
+
+      const tbody = document.createElement('tbody');
+      accessories.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.category}</td>
+          <td>${item.name}</td>
+          <td>${item.model}</td>
+          <td>${item.years}</td>
+          <td class="btn-group">
+            <button class="action-btn" onclick="deleteAccessory(${index})">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+      container.appendChild(table);
     }
 
 </script>
