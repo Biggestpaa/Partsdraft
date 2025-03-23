@@ -5,8 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Parts - Toyota Parts Store</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .category-group {
+      margin-bottom: 20px;
+    }
+    .category-title {
+      font-size: 16px;
+      color: #d71920;
+      margin-bottom: 8px;
+    }
+    .subcategory-title {
+      font-size: 14px;
+      color: #fff;
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+    .part-item {
+      margin-left: 20px;
+      font-size: 13px;
+      color: #ccc;
+      padding: 2px 0;
+    }
+  </style>
 </head>
-<body onload="loadBanner(); showVehicleInfo(); loadPartsHeader(); loadPartsIntro();">
+<body onload="loadPage()">
   <header class="header">
     <img id="banner-image" src="banner.jpg" alt="Toyota Banner" class="banner-img" />
     <div class="header-text">
@@ -18,7 +40,7 @@
 
   <main class="main">
     <div class="card">
-      <p style="text-align: center; color: #888;">Parts list and categories coming soon.</p>
+      <div id="parts-container"></div>
     </div>
   </main>
 
@@ -27,6 +49,14 @@
   </footer>
 
   <script>
+    function loadPage() {
+      loadBanner();
+      showVehicleInfo();
+      loadPartsHeader();
+      loadPartsIntro();
+      loadPartsForVehicle();
+    }
+
     function loadBanner() {
       const stored = localStorage.getItem('bannerImage');
       if (stored) document.getElementById('banner-image').src = stored;
@@ -51,6 +81,57 @@
     function loadPartsIntro() {
       const intro = localStorage.getItem('partsIntro');
       if (intro) document.getElementById('parts-intro').textContent = intro;
+    }
+
+    function loadPartsForVehicle() {
+      const params = new URLSearchParams(window.location.search);
+      const make = params.get('make')?.toLowerCase();
+      const model = params.get('model')?.toLowerCase();
+
+      const partsList = JSON.parse(localStorage.getItem('partsList') || '[]');
+      const container = document.getElementById('parts-container');
+      container.innerHTML = "";
+
+      const grouped = {};
+
+      partsList.forEach(part => {
+        if (part.make === make && part.model === model) {
+          if (!grouped[part.category]) grouped[part.category] = {};
+          if (!grouped[part.category][part.subcategory]) grouped[part.category][part.subcategory] = [];
+          grouped[part.category][part.subcategory].push(part);
+        }
+      });
+
+      if (Object.keys(grouped).length === 0) {
+        container.innerHTML = "<p style='color:#999;'>No parts found for this vehicle.</p>";
+        return;
+      }
+
+      for (let category in grouped) {
+        const catDiv = document.createElement("div");
+        catDiv.className = "category-group";
+
+        const catTitle = document.createElement("div");
+        catTitle.className = "category-title";
+        catTitle.textContent = category;
+        catDiv.appendChild(catTitle);
+
+        for (let sub in grouped[category]) {
+          const subTitle = document.createElement("div");
+          subTitle.className = "subcategory-title";
+          subTitle.textContent = sub;
+          catDiv.appendChild(subTitle);
+
+          grouped[category][sub].forEach(part => {
+            const item = document.createElement("div");
+            item.className = "part-item";
+            item.textContent = `${part.name} (${part.number}) - Years: ${part.years}`;
+            catDiv.appendChild(item);
+          });
+        }
+
+        container.appendChild(catDiv);
+      }
     }
   </script>
 </body>
