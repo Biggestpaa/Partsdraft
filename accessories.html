@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Accessories - Toyota Accessories Store</title>
+  <title>Accessories - Toyota Store</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     .vehicle-banner {
@@ -78,7 +78,7 @@
   <main class="main" style="flex-direction: column;">
     <div class="card">
       <h2 id="accessories-title">Available Accessories</h2>
-      <p id="accessories-intro">Select a category below to view compatible parts.</p>
+      <p id="accessories-intro">Select a category below to view compatible accessories.</p>
       <div id="accessories-container"></div>
     </div>
   </main>
@@ -91,8 +91,6 @@
     function loadPage() {
       loadBanner();
       showVehicleInfo();
-      loadAccessoriesHeader();
-      loadAccessoriesIntro();
       loadAccessoriesForVehicle();
     }
 
@@ -112,16 +110,6 @@
       }
     }
 
-    function loadAccessoriesHeader() {
-      const title = localStorage.getItem('partsTitle');
-      if (title) document.getElementById('accessories-title').textContent = title;
-    }
-
-    function loadAccessoriesIntro() {
-      const intro = localStorage.getItem('partsIntro');
-      if (intro) document.getElementById('accessories-intro').textContent = intro;
-    }
-
     function toggleCategoryContent(id) {
       const section = document.getElementById(id);
       section.style.display = section.style.display === 'block' ? 'none' : 'block';
@@ -131,8 +119,8 @@
       const params = new URLSearchParams(window.location.search);
       const make = params.get('make')?.toLowerCase();
       const model = params.get('model')?.toLowerCase();
-      const accessoriesList = JSON.parse(localStorage.getItem('accessoriesList') || '[]');
-      const container = document.getElementById('accessories-container');
+      const accessoriesList = JSON.parse(localStorage.getItem("accessoriesList") || "[]");
+      const container = document.getElementById("accessories-container");
       container.innerHTML = "";
 
       const grouped = {};
@@ -146,7 +134,7 @@
       });
 
       if (Object.keys(grouped).length === 0) {
-        container.innerHTML = "<p style='color:#999;'>No parts found for this vehicle.</p>";
+        container.innerHTML = "<p style='color:#999;'>No accessories found for this vehicle.</p>";
         return;
       }
 
@@ -173,11 +161,10 @@
           grouped[category][sub].forEach(part => {
             const partCard = document.createElement("div");
             partCard.className = "part-card";
-            partCard.innerHTML = (part.image ? `<img src="${part.image}" alt="Part Image" style="width:100%;max-height:120px;object-fit:contain;margin-bottom:8px;border-radius:4px;" />` : "") + `
-              <div class="part-name">${part.name}</div>
+            partCard.innerHTML = (part.image ? `<img src="${part.image}" alt="Image" style="width:100%;max-height:120px;object-fit:contain;margin-bottom:8px;border-radius:4px;" />` : "") +
+              `<div class="part-name">${part.name}</div>
               <div class="part-details">Part #: ${part.number}</div>
-              <div class="part-details">Years: ${part.years}</div>
-            `;
+              <div class="part-details">Years: ${part.years}</div>`;
             subGroup.appendChild(partCard);
           });
 
