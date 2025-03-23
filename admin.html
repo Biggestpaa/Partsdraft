@@ -48,6 +48,33 @@
       <button onclick="savePartsIntro()">Save Parts Intro</button>
       <button onclick="resetPartsIntro()">Reset Parts Intro</button>
     </div>
+  
+    <div class="card">
+      <h2>Add New Part</h2>
+      <label>Category</label>
+      <input type="text" id="part-category" placeholder="e.g. Filters, Brakes" />
+
+      <label>Subcategory</label>
+      <input type="text" id="part-subcategory" placeholder="e.g. Oil Filter, Rear Pads" />
+
+      <label>Part Name</label>
+      <input type="text" id="part-name" placeholder="e.g. Toyota Oil Filter 90915-YZZJ1" />
+
+      <label>Part Number</label>
+      <input type="text" id="part-number" placeholder="e.g. 90915-YZZJ1" />
+
+      <label>Make</label>
+      <input type="text" id="part-make" placeholder="e.g. Toyota" />
+
+      <label>Model</label>
+      <input type="text" id="part-model" placeholder="e.g. Yaris" />
+
+      <label>Year Range</label>
+      <input type="text" id="part-years" placeholder="e.g. 2014–2018" />
+
+      <button onclick="addPart()">Add Part</button>
+    </div>
+
   </main>
 
   <footer class="footer">
@@ -136,6 +163,24 @@
       const partsIntro = localStorage.getItem('partsIntro');
       if (partsIntro) document.getElementById('parts-intro-input').value = partsIntro;
     };
-  </script>
+  
+    function addPart() {
+      const part = {
+        category: document.getElementById('part-category').value,
+        subcategory: document.getElementById('part-subcategory').value,
+        name: document.getElementById('part-name').value,
+        number: document.getElementById('part-number').value,
+        make: document.getElementById('part-make').value.toLowerCase(),
+        model: document.getElementById('part-model').value.toLowerCase(),
+        years: document.getElementById('part-years').value
+      };
+
+      const existing = JSON.parse(localStorage.getItem('partsList') || '[]');
+      existing.push(part);
+      localStorage.setItem('partsList', JSON.stringify(existing));
+      alert('Part added successfully!');
+    }
+
+</script>
 </body>
 </html>
